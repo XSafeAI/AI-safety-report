@@ -143,23 +143,22 @@
   <div class="publication-authors" style="max-width: 1000px; margin: 20px auto 15px; font-size: 1.2rem; color: #d0d0d0; line-height: 1.6;">
     <span class="author-block">Xingjun Ma<sup>1,2</sup></span>&nbsp;&nbsp;
     <span class="author-block">Yixu Wang<sup>1</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Hengyuan Xu<sup>1,4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Hengyuan Xu<sup>1</sup></span>&nbsp;&nbsp;
     <span class="author-block">Yutao Wu<sup>3</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yunhan Zhao<sup>1</sup></span>&nbsp;&nbsp;
     <span class="author-block">Zilong Wang<sup>1</sup></span>&nbsp;&nbsp;
     <span class="author-block">Jiabin Hua<sup>1,4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Ming Wen<sup>1,2</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Jianan Liu<sup>2</sup></span>&nbsp;&nbsp;
     <span class="author-block">Yunhao Chen<sup>1</sup></span>&nbsp;&nbsp;
     <span class="author-block">Yifeng Gao<sup>1</sup></span>&nbsp;&nbsp;
     <span class="author-block">Xin Wang<sup>1</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Yifan Ding<sup>1,5</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Ming Wen<sup>2</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Jianan Liu<sup>2</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yifan Ding<sup>1,4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yingshui Tan<sup>4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Ranjie Duan<sup>4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Hui Xue<sup>4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Wei Cheng</span>&nbsp;&nbsp;
     <span class="author-block">Jingjing Chen<sup>1</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Wei Cheng<sup>4</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Ranjie Duan<sup>5</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Yingshui Tan<sup>5</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Hui Xue<sup>5</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Yang Bai<sup>6</sup></span>&nbsp;&nbsp;
-    <span class="author-block">Xun Chen<sup>6</sup></span>&nbsp;&nbsp;
     <span class="author-block">Yu-Gang Jiang<sup>1</sup></span>
   </div>
 
@@ -167,11 +166,9 @@
   <div class="publication-authors" style="font-size: 1.1rem; margin-bottom: 30px; color: var(--muted);">
     <span class="author-block">Fudan University<sup>1</sup></span>&nbsp;&nbsp;&nbsp;
     <span class="author-block">Shanghai Innovation Institute<sup>2</sup></span>&nbsp;&nbsp;&nbsp;
-    <span class="author-block">Deakin University<sup>3</sup></span>&nbsp;&nbsp;&nbsp;
-    <span class="author-block">StepFun<sup>4</sup></span>
     <br>
-    <span class="author-block">Alibaba Group<sup>5</sup></span>&nbsp;&nbsp;&nbsp;
-    <span class="author-block">ByteDance<sup>6</sup></span>
+    <span class="author-block">Deakin University<sup>3</sup></span>&nbsp;&nbsp;&nbsp;
+    <span class="author-block">Alibaba Group<sup>4</sup></span>&nbsp;&nbsp;&nbsp;
   </div>
 </div>
 
@@ -316,8 +313,8 @@
     <!-- Abstract -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified" style="font-size: 1.1rem; margin-bottom: 2rem;">
+        <h2 class="title is-3" style="color:var(--text)">Abstract</h2>
+        <div class="content has-text-justified" style="font-size: 1.1rem; margin-bottom: 2rem; ">
           <p>
             This report presents a comprehensive safety evaluation of the latest foundation models released in 2026, including GPT-5.2, Gemini 3 Pro, and others. 
             We analyze safety alignment across text, vision-language, and text-to-image modalities, highlighting vulnerabilities in current safeguards against adversarial attacks and regulation compliance.
@@ -354,7 +351,7 @@
   <div id="llm-benchmark" class="tab-content is-active">
     <h2 class="section-title">Large Language Model Benchmark Evaluation</h2>
     <p class="section-desc">
-      Evaluation of model refusal rates and safety alignment across standard safety taxonomies including hate speech, harassment, and dangerous content.
+      In standard safety benchmarks, GPT-5.2 achieves the highest macro-average safe rate of 91.59%, closely followed by Gemini 3 Pro at 88.06%. While most models perform well on refusal-based tasks like StrongREJECT, there is significant variance in social reasoning; for instance, Qwen3-VL struggles severely on the BBQ bias benchmark with a score of only 45.00%. This indicates that while frontier models have improved at rejecting explicit harmful instructions, they remain structurally weak in detecting subtle social biases and ensuring fairness.
     </p>
     
     <div class="center-wrapper">
@@ -374,7 +371,7 @@
   <div id="llm-adversarial" class="tab-content">
     <h2 class="section-title">LLM Adversarial Evaluation</h2>
     <p class="section-desc">
-      Stress-testing models against jailbreak attacks (GCG, PAIR, TAP) and prompt injection techniques to measure robustness boundaries.
+      Despite strong benchmark performance, models remain vulnerable to jailbreaks, with no model exceeding 85% worst-case safety. GPT-5.2 is the most robust (82.00% worst-case safety), whereas Doubao 1.6 and Grok 4.1 Fast exhibit catastrophic collapses, scoring only 12.00% and 4.00% respectively. The evaluation reveals that while static template-based attacks are often mitigated, models are highly susceptible to sophisticated, multi-turn agentic attacks (like X-Teaming) that progressively decompose harmful objectives.
     </p>
     
     <div class="center-wrapper">
@@ -394,7 +391,7 @@
   <div id="vlm-benchmark" class="tab-content">
     <h2 class="section-title">Vision-Language Model Benchmark Evaluation</h2>
     <p class="section-desc">
-      Assessing cross-modal safety alignment, focusing on visual inputs that trigger unsafe textual outputs or vice versa.
+      GPT-5.2 leads the multimodal benchmark with a 92.14% safe rate, showing consistent generalization, while models like Grok 4.1 Fast and Doubao 1.6 lag significantly behind. Performance is uneven across risk types; models handle cross-modal misalignment well (SIUO) but struggle with culturally grounded implicit harm in memes, where scores drop as low as 44%. A key failure mode is "analytical operationalization," where models provide dangerous, actionable details under the guise of neutral academic analysis when processing visual inputs.
     </p>
     
     <div class="center-wrapper">
@@ -414,7 +411,7 @@
   <div id="vlm-adversarial" class="tab-content">
     <h2 class="section-title">VLM Adversarial Evaluation</h2>
     <p class="section-desc">
-      Visual jailbreaks and adversarial perturbations designed to bypass safety filters in multimodal foundation models.
+      In adversarial settings, GPT-5.2 maintains an exceptional safe rate of 97.24%, while other models suffer sharp degradation, particularly on the VLJailbreakBench where Qwen3-VL and Gemini 3 Pro drop to approximately 60%. Models frequently fail due to "refusal drift" in multi-turn dialogues or when harmful intent is obscured by complex formatting and role-play. Doubao 1.6 is particularly brittle, often collapsing to direct policy-override instructions.
     </p>
     
     <div class="center-wrapper">
@@ -434,7 +431,7 @@
   <div id="t2i-benchmark" class="tab-content">
     <h2 class="section-title">Text-to-Image Benchmark Evaluation</h2>
     <p class="section-desc">
-      Quantitative analysis of generated image safety, measuring the frequency of NSFW, violent, or copyrighted content generation.
+      On the T2ISafety benchmark, Nano Banana Pro achieves a safe rate of 52%, outperforming Seedream 4.5's 40%, though both struggle heavily with Violence and Disturbing content. Nano Banana Pro employs "implicit sanitization," modifying prompts to render safer images, whereas Seedream 4.5 relies on a "block-or-leak" strategy. When Seedream's filters are bypassed, it tends to generate highly toxic or abstractly disturbing "leakage" images rather than sanitized alternatives.
     </p>
     
     <div class="center-wrapper">
@@ -454,7 +451,7 @@
   <div id="t2i-adversarial" class="tab-content">
     <h2 class="section-title">T2I Adversarial Evaluation</h2>
     <p class="section-desc">
-      Testing against prompt bypassing techniques and concept bleeding attacks intended to generate prohibited visual content.
+      Under advanced jailbreak attacks (PGJ and GenBreak), Nano Banana Pro demonstrates superior robustness with a worst-case safe rate of 54.00%, compared to Seedream 4.5's 19.67%. While Seedream 4.5 has higher refusal rates, it generates highly toxic content when its filters fail, whereas Nano Banana Pro keeps toxicity scores lower even during failures. Both models exhibit specific weaknesses, such as "scale blindness" (missing small background elements) and susceptibility to artistic style disguises in nudity.
     </p>
     
     <div class="center-wrapper">
@@ -474,7 +471,7 @@
   <div id="t2i-regulation" class="tab-content">
     <h2 class="section-title">T2I Compliance Evaluation</h2>
     <p class="section-desc">
-      Analysis of model compliance with emerging AI safety regulations, watermarking robustness, and identity consistency safeguards.
+      Evaluated against regulation-grounded frameworks, Nano Banana Pro achieves a higher compliance rate (65.59%) than Seedream 4.5 (57.53%). While both models reliably suppress explicit visual taboos like nudity, they share a fundamental "blindness" to abstract regulatory violations such as Intellectual Property Infringement and Political Subversion. These failures occur because the models struggle to infer the semantic intent or legal context of a request solely from pixel-level patterns.
     </p>
     
     <div class="center-wrapper">
