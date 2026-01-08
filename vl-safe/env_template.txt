@@ -1,5 +1,5 @@
 # ===============================================
-# GeminiEvaluation 环境变量配置模板
+# VL-Safe 环境变量配置模板
 # ===============================================
 # 使用说明：
 # 1. 复制此文件为 .env: cp env_template.txt .env
@@ -78,15 +78,15 @@ SILICONFLOW_API_KEY=your-siliconflow-api-key-here
 # 数据路径配置 (可选)
 # -----------------------------------------------
 # 如果需要自定义数据路径，请取消注释并配置
-# RAW_DATA_ROOT=/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw
-# PROCESSED_DATA_ROOT=/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed
-# RESULTS_ROOT=/data/data-pool/dingyifan/GeminiEvaluation/workspace/results
+# RAW_DATA_ROOT=/data/data-pool/dingyifan/VL-Safe/workspace/data/raw
+# PROCESSED_DATA_ROOT=/data/data-pool/dingyifan/VL-Safe/workspace/data/processed
+# RESULTS_ROOT=/data/data-pool/dingyifan/VL-Safe/workspace/results
 
 # -----------------------------------------------
 # 模型路径配置 (可选)
 # -----------------------------------------------
 # 本地评判模型路径
-# JUDGE_MODEL_PATH=/data/data-pool/dingyifan/GeminiEvaluation/external/model/Qwen3Guard-Gen-8B
+# JUDGE_MODEL_PATH=/data/data-pool/dingyifan/VL-Safe/external/model/Qwen3Guard-Gen-8B
 
 # ===============================================
 # 注意事项

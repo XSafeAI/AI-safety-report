@@ -322,16 +322,16 @@ def main():
     parser.add_argument('--max-tokens', type=int, default=256,
                        help='最大生成token数（默认: 256）')
     parser.add_argument('--processed-root', type=str,
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/data/processed',
                        help='处理后数据根目录')
     parser.add_argument('--output-root', type=str,
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/results',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/results',
                        help='结果输出根目录')
     
     args = parser.parse_args()
     
     # 加载环境变量（根据模型自动选择）
-    env_path = Path('/data/data-pool/dingyifan/GeminiEvaluation/.env')
+    env_path = Path('/data/data-pool/dingyifan/VL-Safe/.env')
     if env_path.exists():
         load_dotenv(env_path)
     

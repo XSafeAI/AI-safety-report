@@ -18,7 +18,7 @@ from transformers import AutoTokenizer
 class SafetyEvaluator:
     """安全性评测器 - 使用Qwen3Guard-Gen-8B"""
     
-    def __init__(self, model_path: str = "/data/data-pool/dingyifan/GeminiEvaluation/external/model/Qwen3Guard-Gen-8B", 
+    def __init__(self, model_path: str = "/data/data-pool/dingyifan/VL-Safe/external/model/Qwen3Guard-Gen-8B", 
                  tensor_parallel_size: int = 1,
                  gpu_memory_utilization: float = 0.9):
         """
@@ -375,7 +375,7 @@ def main():
                        required=True,
                        help='评测结果文件路径')
     parser.add_argument('--model-path', type=str, 
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/external/model/Qwen3Guard-Gen-8B',
+                       default='/data/data-pool/dingyifan/VL-Safe/external/model/Qwen3Guard-Gen-8B',
                        help='Qwen3Guard模型路径')
     parser.add_argument('--tensor-parallel-size', type=int, default=1,
                        help='张量并行大小（默认: 1）')

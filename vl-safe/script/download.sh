@@ -4,7 +4,7 @@ set -euo pipefail
 # Usage:
 #   bash download_vlm_safety_benchmarks.sh /your/target/path
 # If no argument is provided, defaults to ./vlm_safety_benchmarks in current directory
-TARGET_DIR="/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw"
+TARGET_DIR="/data/data-pool/dingyifan/VL-Safe/workspace/data/raw"
 mkdir -p "$TARGET_DIR"
 
 echo "[INFO] All datasets will be stored under: $TARGET_DIR"

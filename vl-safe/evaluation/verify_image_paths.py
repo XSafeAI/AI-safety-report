@@ -81,7 +81,7 @@ def check_dataset_images(jsonl_path, num_samples=5):
 
 def main():
     """主函数"""
-    processed_dir = Path('/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed')
+    processed_dir = Path('/data/data-pool/dingyifan/VL-Safe/workspace/data/processed')
     
     print("="*100)
     print(" "*35 + "图片路径验证报告")

@@ -183,7 +183,7 @@ class MultiDatasetLoader:
     Used to load and manage multiple datasets simultaneously
     """
     
-    def __init__(self, processed_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"):
+    def __init__(self, processed_root: str = "/data/data-pool/dingyifan/VL-Safe/workspace/data/processed"):
         """
         Initialize multi-dataset loader
         
@@ -245,7 +245,7 @@ class MultiDatasetLoader:
 if __name__ == '__main__':
     # Example 1: Load single dataset
     print("Example 1: Load single dataset")
-    loader = DatasetLoader('/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed/vljailbreakbench.jsonl')
+    loader = DatasetLoader('/data/data-pool/dingyifan/VL-Safe/workspace/data/processed/vljailbreakbench.jsonl')
     
     print(f"Dataset: {loader._dataset_name}")
     print(f"Sample count: {len(loader)}")

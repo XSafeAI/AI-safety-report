@@ -477,10 +477,10 @@ def main():
     parser.add_argument('--retry-delay', type=float, default=3.0,
                        help='Wait time before each retry in seconds (default: 3.0)')
     parser.add_argument('--processed-root', type=str,
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/data/processed',
                        help='Processed data root directory')
     parser.add_argument('--output-root', type=str,
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/results',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/results',
                        help='Result output root directory')
     parser.add_argument('--retry-errors', type=str, default=None,
                        help='Path to result file for re-evaluating error samples (e.g.: /path/to/results.jsonl)')
@@ -488,7 +488,7 @@ def main():
     args = parser.parse_args()
     
     # Load environment variables (auto select based on model)
-    env_path = Path('/data/data-pool/dingyifan/GeminiEvaluation/.env')
+    env_path = Path('/data/data-pool/dingyifan/VL-Safe/.env')
     if env_path.exists():
         load_dotenv(env_path)
     

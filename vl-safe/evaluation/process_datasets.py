@@ -17,8 +17,8 @@ from adapters import (
 
 
 def process_all_datasets(
-    raw_data_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw",
-    processed_data_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"
+    raw_data_root: str = "/data/data-pool/dingyifan/VL-Safe/workspace/data/raw",
+    processed_data_root: str = "/data/data-pool/dingyifan/VL-Safe/workspace/data/processed"
 ):
     """
     处理所有数据集
@@ -119,8 +119,8 @@ def process_all_datasets(
 
 
 def process_single_dataset(dataset_name: str, 
-                          raw_data_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw",
-                          processed_data_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"):
+                          raw_data_root: str = "/data/data-pool/dingyifan/VL-Safe/workspace/data/raw",
+                          processed_data_root: str = "/data/data-pool/dingyifan/VL-Safe/workspace/data/processed"):
     """
     处理单个数据集
     
@@ -208,10 +208,10 @@ def main():
     parser.add_argument('--dataset', type=str, default=None,
                        help='指定要处理的数据集名称（不指定则处理所有数据集）')
     parser.add_argument('--raw-root', type=str, 
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/data/raw',
                        help='原始数据根目录')
     parser.add_argument('--processed-root', type=str,
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/data/processed',
                        help='处理后数据根目录')
     
     args = parser.parse_args()

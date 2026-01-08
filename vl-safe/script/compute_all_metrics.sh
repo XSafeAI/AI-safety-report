@@ -14,8 +14,8 @@ echo ""
 export CUDA_VISIBLE_DEVICES=4,5,6,7
 
 # Configuration parameters
-RESULT_ROOT="/data/data-pool/dingyifan/GeminiEvaluation/workspace/results/grok-4-1-fast-non-reasoning"
-MODEL_PATH="/data/data-pool/dingyifan/GeminiEvaluation/external/model/Qwen3Guard-Gen-8B"
+RESULT_ROOT="/data/data-pool/dingyifan/VL-Safe/workspace/results/grok-4-1-fast-non-reasoning"
+MODEL_PATH="/data/data-pool/dingyifan/VL-Safe/external/model/Qwen3Guard-Gen-8B"
 TENSOR_PARALLEL_SIZE=4
 GPU_MEMORY_UTILIZATION=0.9
 BATCH_SIZE=1000
@@ -49,7 +49,7 @@ done
 echo ""
 
 # Change to evaluation directory
-cd /data/data-pool/dingyifan/GeminiEvaluation/evaluation
+cd /data/data-pool/dingyifan/VL-Safe/evaluation
 
 # Success and failure counters
 SUCCESS_COUNT=0

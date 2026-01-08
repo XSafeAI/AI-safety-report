@@ -7,7 +7,7 @@ from pathlib import Path
 from collections import Counter, defaultdict
 
 
-def generate_report(processed_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"):
+def generate_report(processed_root: str = "/data/data-pool/dingyifan/VL-Safe/workspace/data/processed"):
     """
     生成处理后数据的统计报告
     
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='生成数据处理统计报告')
     parser.add_argument('--processed-root', type=str,
-                       default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed',
+                       default='/data/data-pool/dingyifan/VL-Safe/workspace/data/processed',
                        help='处理后数据根目录')
     
     args = parser.parse_args()

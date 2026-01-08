@@ -1,4 +1,4 @@
-# GeminiEvaluation
+# VL-Safe
 
 A comprehensive evaluation system for assessing the performance of multiple Large Language Models on multimodal safety benchmarks.
 
@@ -148,7 +148,7 @@ python evaluation/generate_report.py \
 ## 📖 Project Structure
 
 ```
-GeminiEvaluation/
+VL-Safe/
 ├── evaluation/              # Core evaluation code
 │   ├── adapters/           # Dataset adapters
 │   │   ├── base_adapter.py          # Base adapter

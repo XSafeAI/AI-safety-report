@@ -11,8 +11,8 @@ echo "=========================================="
 echo ""
 
 # Default configuration
-PROCESSED_ROOT="/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"
-OUTPUT_ROOT="/data/data-pool/dingyifan/GeminiEvaluation/workspace/results"
+PROCESSED_ROOT="/data/data-pool/dingyifan/VL-Safe/workspace/data/processed"
+OUTPUT_ROOT="/data/data-pool/dingyifan/VL-Safe/workspace/results"
 MAX_SAMPLES=10000
 CONCURRENCY=32
 REASONING_EFFORT="low"
@@ -139,7 +139,7 @@ fi
 echo ""
 
 # Check .env file
-if [ ! -f "/data/data-pool/dingyifan/GeminiEvaluation/.env" ]; then
+if [ ! -f "/data/data-pool/dingyifan/VL-Safe/.env" ]; then
     echo "Warning: .env file not found"
     echo "Please ensure environment variables are set (e.g., GEMINI_API_KEY, OPENAI_API_KEY, etc.)"
 fi
@@ -172,7 +172,7 @@ for dataset in "${DATASETS[@]}"; do
     echo "=========================================="
     
     # Run evaluation
-    if python3 /data/data-pool/dingyifan/GeminiEvaluation/evaluation/evaluate.py \
+    if python3 /data/data-pool/dingyifan/VL-Safe/evaluation/evaluate.py \
         --dataset "$dataset" \
         --max-samples "$MAX_SAMPLES" \
         --concurrency "$CONCURRENCY" \
