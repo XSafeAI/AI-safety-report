@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Safety Report: GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Nano Banana Pro, Seedream 4.5</title>
+
+<!-- Fonts & UI libs (CDN so it works out-of-the-box) -->
+<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Chewy:regular" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script:regular" rel="stylesheet" />
+
+<!-- Minimal inline styles to make it look good without local CSS -->
+<style>
+  /* Dark Mode Variables */
+  :root{--bg:#121212;--text:#e0e0e0;--muted:#a0a0a0;--link:#82b1ff;--border:#333333}
+  *{box-sizing:border-box}
+  html, body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans","Google Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  
+  .column.has-text-centered{width:100%;text-align:center;background:var(--bg)}
+  
+  .publication-title{line-height:1.2; margin-bottom: 20px;}
+
+  .publication-authors{color: var(--muted);}
+  
+  /* Carousel styles */
+  .carousel-teaser-container{overflow:hidden;width:100%;padding:20px 0; background: #1e1e1e; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);}
+  .carousel-teaser{display:flex;gap:20px;will-change:transform}
+  .teaser-img{height:350px;width:auto;border-radius:4px;box-shadow: 0 4px 8px rgba(0,0,0,0.3); background: #2d2d2d;}
+
+  /* Leaderboard Border Highlights */
+  #carousel .teaser-img { border: 5px solid transparent; }
+  #carousel .teaser-img:nth-child(3n+1) { border-color: #ff7675; } /* Light Red */
+  #carousel .teaser-img:nth-child(3n+2) { border-color: #74b9ff; } /* Light Blue */
+  #carousel .teaser-img:nth-child(3n+3) { border-color: #55efc4; } /* Light Green */
+
+  /* Tab Styles */
+  .tabs-wrapper { max-width: 1200px; margin: 40px auto 20px; padding: 0 20px; }
+  
+  /* Custom Toggle Button Styles */
+  .tabs.is-toggle li a {
+      background-color: #1e1e1e; /* Dark color for unselected */
+      color: #a0a0a0;
+      border-color: #333333;
+      transition: background-color 0.3s, color 0.3s;
+  }
+  .tabs.is-toggle li.is-active a {
+      background-color: #3273dc; /* Accent color for selected */
+      color: #ffffff !important;
+      border-color: #3273dc;
+  }
+  .tabs.is-toggle li a:hover {
+      background-color: #2d2d2d;
+      color: #e0e0e0;
+  }
+
+  /* Content Styles */
+  .content-container { max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; min-height: 400px;}
+  .tab-content { display: none; animation: fadeIn 0.5s; }
+  .tab-content.is-active { display: block; }
+  
+  .figure-caption { text-align: center; font-weight: bold; margin-top: 10px; margin-bottom: 30px; color: var(--muted); }
+  .summary-img { width: 100%; max-width: 900px; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: block; margin: 10px auto; background: white; }
+  .example-img { width: 100%; max-width: 1100px; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: block; margin: 10px auto; background: white; }
+
+  .section-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); text-align: center;}
+  .section-desc { max-width: 800px; margin: 0 auto 30px; text-align: center; color: var(--muted); line-height: 1.6; font-size: 1.1rem; }
+  
+  .subsection-header { font-size: 1.4rem; font-weight: 600; margin-top: 40px; margin-bottom: 15px; text-align: center; color: var(--text); border-bottom: 2px solid #333; padding-bottom: 10px; display: inline-block; }
+  .center-wrapper { text-align: center; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+    @media (max-width:600px){
+    .teaser-img{height:180px}
+    .publication-title span { font-size: 1.8rem !important; }
+  }
+
+  /* Modal/Lightbox Styles - Fix for "blocked by overflow" */
+  /* 修改：使用 fixed 定位和极高的 z-index，确保弹窗位于所有内容（包括走马灯容器）之上 */
+  .modal { 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    position: fixed; /* 关键：固定定位脱离文档流 */
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0,0,0,0.9); /* 深色背景遮罩 */
+    z-index: 9999; /* 关键：置于顶层 */
+  }
+  .modal.is-active { display: flex; }
+  
+  .modal-content { 
+    max-width: 95%; 
+    max-height: 95%; 
+    width: auto; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    overflow: hidden; 
+  }
+  
+  .modal-content img { 
+    max-height: 90vh; 
+    max-width: 90vw; 
+    width: auto; 
+    height: auto; 
+    border-radius: 4px; 
+    box-shadow: 0 0 30px rgba(0,0,0,0.8); 
+    object-fit: contain; 
+  }
+
+  /* 修改：走马灯里的图片只做轻微缩放，避免被 overflow:hidden 裁切 */
+  .teaser-img { 
+    cursor: zoom-in; 
+    transition: transform 0.2s, filter 0.2s; 
+  }
+  .teaser-img:hover { 
+    transform: scale(1.02); /* 仅轻微放大，提示可点击 */
+    filter: brightness(1.1); /* 稍微变亮 */
+  }
+</style>
+</head>
+
+<body>
+
+
+<div class="column has-text-centered">
+  <br><br>
+  <h1 class="title is-1 publication-title">
+    <!-- 替换了原本的文字标题为图片，并设置了宽度 -->
+    <img src="static/title.png" alt="A Safety Report" style="width: 300px; max-width: 90%; height: 50px; margin-bottom: -6px;"><br>
+    <span style="font-size:32px;color:#d0d0d0;font-weight:bold;font-family: 'Google Sans', sans-serif;">ON GPT-5.2, GEMINI 3 PRO, QWEN3-VL,</span><br>
+    <span style="font-size:32px;color:#d0d0d0;font-weight:bold;font-family: 'Google Sans', sans-serif;">DOUBAO 1.6, NANO BANANA PRO, AND SEEDREAM 4.5</span>
+  </h1>
+  <!-- Authors -->
+  <div class="publication-authors" style="max-width: 1000px; margin: 20px auto 15px; font-size: 1.2rem; color: #d0d0d0; line-height: 1.6;">
+    <span class="author-block">Xingjun Ma<sup>1,2</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yixu Wang<sup>1</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Hengyuan Xu<sup>1,4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yutao Wu<sup>3</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Zilong Wang<sup>1</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Jiabin Hua<sup>1,4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yunhao Chen<sup>1</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yifeng Gao<sup>1</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Xin Wang<sup>1</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yifan Ding<sup>1,5</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Ming Wen<sup>2</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Jianan Liu<sup>2</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Jingjing Chen<sup>1</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Wei Cheng<sup>4</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Ranjie Duan<sup>5</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yingshui Tan<sup>5</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Hui Xue<sup>5</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yang Bai<sup>6</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Xun Chen<sup>6</sup></span>&nbsp;&nbsp;
+    <span class="author-block">Yu-Gang Jiang<sup>1</sup></span>
+  </div>
+
+  <!-- Affiliations -->
+  <div class="publication-authors" style="font-size: 1.1rem; margin-bottom: 30px; color: var(--muted);">
+    <span class="author-block">Fudan University<sup>1</sup></span>&nbsp;&nbsp;&nbsp;
+    <span class="author-block">Shanghai Innovation Institute<sup>2</sup></span>&nbsp;&nbsp;&nbsp;
+    <span class="author-block">Deakin University<sup>3</sup></span>&nbsp;&nbsp;&nbsp;
+    <span class="author-block">StepFun<sup>4</sup></span>
+    <br>
+    <span class="author-block">Alibaba Group<sup>5</sup></span>&nbsp;&nbsp;&nbsp;
+    <span class="author-block">ByteDance<sup>6</sup></span>
+  </div>
+</div>
+
+
+<!------------------------- Badges ------------------------------------->
+ <div class="column has-text-centered">
+ <div class="publication-links">
+ <!-- PDF Link. -->
+ <!-- <span class="link-block">
+ <a href="https://huggingface.co/papers/2510.14975"
+ class="external-link button is-normal is-rounded is-dark">
+ <span class="icon">
+ <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 578 578" data-fa-i2svg=""><path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg>
+ </span>
+ <span>Paper</span>
+ </a>
+ </span> -->
+ <!-- Arxiv Link. -->
+ <span class="link-block">
+ <a href="https://arxiv.org/abs/2510.14975"
+ class="external-link button is-normal is-rounded is-dark">
+ <span class="icon">
+ <i class="ai ai-arxiv"></i>
+ </span>
+ <span>arXiv</span>
+ </a>
+ </span>
+ <!-- Code Link. -->
+ <span class="link-block">
+ <a href="https://github.com/Doby-Xu/WithAnyone"
+ class="external-link button is-normal is-rounded is-dark">
+ <span class="icon">
+ <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+ </span>
+ <span>Code</span>
+ </a>
+ </span>
+ <!-- Model Link. -->
+ <span class="link-block">
+ <a href="https://huggingface.co/WithAnyone/WithAnyone" class="external-link button is-normal is-rounded is-dark" target="_blank">
+ <span class="icon">
+ <img src="static/icon/hf-logo.png" alt="PNG" style="width: 18px; height: 18px;">
+ </span>
+ <span>Model</span>
+ </a>
+ </span>
+ <!-- Dataset Link. -->
+ <span class="link-block">
+ <a href="https://huggingface.co/datasets/WithAnyone/MultiID-2M" class="external-link button is-normal is-rounded is-dark" target="_blank">
+ <span class="icon">
+ <img src="static/icon/hf-logo.png" alt="PNG" style="width: 18px; height: 18px;  ">
+ </span>
+ <span>Dataset</span>
+ </a>
+ </span>
+ <!-- Benchmark Link. -->
+ <span class="link-block">
+ <a href="https://huggingface.co/datasets/WithAnyone/MultiID-Bench" class="external-link button is-normal is-rounded is-dark" target="_blank">
+  <span class="icon">
+  <img src="static/icon/hf-logo.png" alt="SVG Icon" style="width: 18px; height: 18px;  ">
+  </span>
+  <span>Benchmark</span>
+  </a>
+  </span>
+ <!-- Demo Link. -->
+ <span class="link-block">
+ <a href="https://huggingface.co/spaces/WithAnyone/WithAnyone_demo" class="external-link button is-normal is-rounded is-dark" target="_blank">
+ <span class="icon">
+ <img src="static/icon/hf-logo.png" alt="SVG Icon" style="width: 18px; height: 18px;  ">
+ </span>
+ <span>Demo</span>
+ </a>
+ </span>
+  
+
+
+ </div>
+ </div>
+
+<!--=================Specs Carousel (New)==========================-->
+<section class="hero">
+  <div class="hero-body" style="padding:0;">
+    <div class="carousel-teaser-container" id="container-spec">
+      <div class="carousel-teaser" id="carousel-spec">
+        <!-- Loop 1 -->
+        <img src="static/spec_1_dark.png" alt="Spec 1" class="teaser-img">
+        <img src="static/spec_2_dark.png" alt="Spec 2" class="teaser-img">
+        <img src="static/spec_3_dark.png" alt="Spec 3" class="teaser-img">
+        <img src="static/spec_4_dark.png" alt="Spec 4" class="teaser-img">
+        <img src="static/spec_5_dark.png" alt="Spec 5" class="teaser-img">
+        <img src="static/spec_6_dark.png" alt="Spec 6" class="teaser-img">
+        <img src="static/spec_7_dark.png" alt="Spec 7" class="teaser-img">
+        <!-- Loop 2 (Duplicate for infinite scroll) -->
+        <img src="static/spec_1_dark.png" alt="Spec 1" class="teaser-img">
+        <img src="static/spec_2_dark.png" alt="Spec 2" class="teaser-img">
+        <img src="static/spec_3_dark.png" alt="Spec 3" class="teaser-img">
+        <img src="static/spec_4_dark.png" alt="Spec 4" class="teaser-img">
+        <img src="static/spec_5_dark.png" alt="Spec 5" class="teaser-img">
+        <img src="static/spec_6_dark.png" alt="Spec 6" class="teaser-img">
+        <img src="static/spec_7_dark.png" alt="Spec 7" class="teaser-img">
+        <!-- Loop 3 (Duplicate for infinite scroll) -->
+        <img src="static/spec_1_dark.png" alt="Spec 1" class="teaser-img">
+        <img src="static/spec_2_dark.png" alt="Spec 2" class="teaser-img">
+        <img src="static/spec_3_dark.png" alt="Spec 3" class="teaser-img">
+        <img src="static/spec_4_dark.png" alt="Spec 4" class="teaser-img">
+        <img src="static/spec_5_dark.png" alt="Spec 5" class="teaser-img">
+        <img src="static/spec_6_dark.png" alt="Spec 6" class="teaser-img">
+        <img src="static/spec_7_dark.png" alt="Spec 7" class="teaser-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--=================Teasers (Leaderboard)==========================-->
+<section class="hero">
+  <div class="hero-body" style="padding:0;">
+    <div class="carousel-teaser-container" id="container">
+      <div class="carousel-teaser" id="carousel">
+        <!-- Loop 1 -->
+        <img src="static/leaderboard_1_dark.png" alt="Leaderboard 1" class="teaser-img">
+        <img src="static/leaderboard_2_dark.png" alt="Leaderboard 2" class="teaser-img">
+        <img src="static/leaderboard_3_dark.png" alt="Leaderboard 3" class="teaser-img">
+        <!-- Loop 2 (Duplicate for infinite scroll effect) -->
+        <img src="static/leaderboard_1_dark.png" alt="Leaderboard 1" class="teaser-img">
+        <img src="static/leaderboard_2_dark.png" alt="Leaderboard 2" class="teaser-img">
+        <img src="static/leaderboard_3_dark.png" alt="Leaderboard 3" class="teaser-img">
+        <!-- Loop 3 (Extra buffer) -->
+        <img src="static/leaderboard_1_dark.png" alt="Leaderboard 1" class="teaser-img">
+        <img src="static/leaderboard_2_dark.png" alt="Leaderboard 2" class="teaser-img">
+        <img src="static/leaderboard_3_dark.png" alt="Leaderboard 3" class="teaser-img">
+      </div>
+    </div>
+  </div>
+    <div class="teaser_text" style="color:var(--text); text-align: center; padding: 15px;">
+      <p>📊 <b>Comprehensive Safety Evaluation</b> across major modalities and latest foundation models.</p>
+    </div>
+</section>
+
+<!--=================Abstract & Overview==========================-->
+<section class="section">
+  <div class="container" style="max-width: 1000px;">
+    <!-- Abstract -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified" style="font-size: 1.1rem; margin-bottom: 2rem;">
+          <p>
+            This report presents a comprehensive safety evaluation of the latest foundation models released in 2026, including GPT-5.2, Gemini 3 Pro, and others. 
+            We analyze safety alignment across text, vision-language, and text-to-image modalities, highlighting vulnerabilities in current safeguards against adversarial attacks and regulation compliance.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--=================Tabs Navigation==========================-->
+<div class="tabs-wrapper">
+  <div class="has-text-centered" style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--muted);">
+
+  </div>
+  <div class="tabs is-centered is-toggle is-medium">
+    <ul>
+      <li class="is-active" onclick="openTab(event, 'llm-benchmark')"><a>LLM Benchmark</a></li>
+      <li onclick="openTab(event, 'llm-adversarial')"><a>LLM Adversarial</a></li>
+      <li onclick="openTab(event, 'vlm-benchmark')"><a>VLM Benchmark</a></li>
+      <li onclick="openTab(event, 'vlm-adversarial')"><a>VLM Adversarial</a></li>
+      <li onclick="openTab(event, 't2i-benchmark')"><a>T2I Benchmark</a></li>
+      <li onclick="openTab(event, 't2i-adversarial')"><a>T2I Adversarial</a></li>
+      <li onclick="openTab(event, 't2i-regulation')"><a>T2I Regulation</a></li>
+    </ul>
+  </div>
+</div>
+
+<!--=================Tab Contents==========================-->
+<div class="content-container">
+  
+  <!-- LLM Benchmark -->
+  <div id="llm-benchmark" class="tab-content is-active">
+    <h2 class="section-title">Large Language Model Benchmark Evaluation</h2>
+    <p class="section-desc">
+      Evaluation of model refusal rates and safety alignment across standard safety taxonomies including hate speech, harassment, and dangerous content.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Quantitative Results</div>
+      <img src="static/fig3_llm_bench_dark.png" alt="LLM Benchmark Results" class="summary-img">
+      <div class="figure-caption">Figure 3: Safe rate of five models across five benchmarks.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Case Studies</div>
+      <img src="static/fig4_exp_dark.png" alt="LLM Benchmark Examples" class="example-img">
+      <div class="figure-caption">Figure 4: Examples of model responses to standard safety benchmark prompts.</div>
+    </div>
+  </div>
+
+  <!-- LLM Adversarial -->
+  <div id="llm-adversarial" class="tab-content">
+    <h2 class="section-title">LLM Adversarial Evaluation</h2>
+    <p class="section-desc">
+      Stress-testing models against jailbreak attacks (GCG, PAIR, TAP) and prompt injection techniques to measure robustness boundaries.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Attack Success Rates</div>
+      <img src="static/fig5_llm_adv_dark.png" alt="LLM Adversarial Results" class="summary-img">
+      <div class="figure-caption">Figure 5: Adversarial evaluation results across five models.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Adversarial Examples</div>
+      <img src="static/adv_bad_examples_dark.png" alt="Adversarial Bad Examples" class="example-img">
+      <div class="figure-caption">Figure 6: Qualitative examples of successful jailbreak attempts.</div>
+    </div>
+  </div>
+
+  <!-- VLM Benchmark -->
+  <div id="vlm-benchmark" class="tab-content">
+    <h2 class="section-title">Vision-Language Model Benchmark Evaluation</h2>
+    <p class="section-desc">
+      Assessing cross-modal safety alignment, focusing on visual inputs that trigger unsafe textual outputs or vice versa.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Benchmark Performance</div>
+      <img src="static/fig11_VLM_bench_dark.png" alt="VLM Benchmark Results" class="summary-img">
+      <div class="figure-caption">Figure 11: Safety scores for Vision-Language Models on standard benchmarks.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Visual Prompt Examples</div>
+      <img src="static/fig12_VLM_Bench_example_dark.png" alt="VLM Benchmark Examples" class="example-img">
+      <div class="figure-caption">Figure 12: Examples of VLM responses to unsafe visual and textual inputs.</div>
+    </div>
+  </div>
+
+  <!-- VLM Adversarial -->
+  <div id="vlm-adversarial" class="tab-content">
+    <h2 class="section-title">VLM Adversarial Evaluation</h2>
+    <p class="section-desc">
+      Visual jailbreaks and adversarial perturbations designed to bypass safety filters in multimodal foundation models.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Adversarial Robustness</div>
+      <img src="static/fig13_VLM_adv_dark.png" alt="VLM Adversarial Results" class="summary-img">
+      <div class="figure-caption">Figure 13: Safe rates under multimodal adversarial evaluation.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Visual Jailbreaks</div>
+      <img src="static/fig14_VLM_adv_example_dark.png" alt="VLM Adversarial Examples" class="example-img">
+      <div class="figure-caption">Figure 14: Demonstration of visual jailbreaks triggering unsafe content.</div>
+    </div>
+  </div>
+
+  <!-- T2I Benchmark -->
+  <div id="t2i-benchmark" class="tab-content">
+    <h2 class="section-title">Text-to-Image Benchmark Evaluation</h2>
+    <p class="section-desc">
+      Quantitative analysis of generated image safety, measuring the frequency of NSFW, violent, or copyrighted content generation.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Safety Metrics</div>
+      <img src="static/fig15_t2i_bench_dark.png" alt="T2I Benchmark Results" class="summary-img">
+      <div class="figure-caption">Figure 15: Evaluation results on the T2ISafety benchmark.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Generation Samples</div>
+      <img src="static/fig16_t2i_bench_example.png" alt="T2I Benchmark Examples" class="example-img">
+      <div class="figure-caption">Figure 16: Samples of generated content evaluated for safety compliance.</div>
+    </div>
+  </div>
+
+  <!-- T2I Adversarial -->
+  <div id="t2i-adversarial" class="tab-content">
+    <h2 class="section-title">T2I Adversarial Evaluation</h2>
+    <p class="section-desc">
+      Testing against prompt bypassing techniques and concept bleeding attacks intended to generate prohibited visual content.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Bypass Success Rates</div>
+      <img src="static/fig17_t2i_adv_dark.png" alt="T2I Adversarial Results" class="summary-img">
+      <div class="figure-caption">Figure 17: Adversarial evaluation results.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Attack Visualizations</div>
+      <img src="static/fig18_t2i_adv_example.png" alt="T2I Adversarial Examples" class="example-img">
+      <div class="figure-caption">Figure 18: Visual results of adversarial prompts bypassing safety filters.</div>
+    </div>
+  </div>
+
+  <!-- T2I Regulation -->
+  <div id="t2i-regulation" class="tab-content">
+    <h2 class="section-title">T2I Compliance Evaluation</h2>
+    <p class="section-desc">
+      Analysis of model compliance with emerging AI safety regulations, watermarking robustness, and identity consistency safeguards.
+    </p>
+    
+    <div class="center-wrapper">
+      <div class="subsection-header">Compliance Scores</div>
+      <img src="static/fig19_t2i_regulation_dark.png" alt="T2I Regulation Results" class="summary-img">
+      <div class="figure-caption">Figure 19: Quantitative results on the regulatory compliance benchmark.</div>
+    </div>
+
+    <div class="center-wrapper">
+      <div class="subsection-header">Regulatory Case Studies</div>
+      <img src="static/fig20_t2i_regulation_example.png" alt="T2I Regulation Examples" class="example-img">
+      <div class="figure-caption">Figure 20: Examples illustrating copyright infringement and identity leakage risks.</div>
+    </div>
+  </div>
+
+</div>
+
+<!--=================Citation==========================-->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content" style="max-width: 800px; margin: 0 auto; margin-bottom: 20px;">
+    <h2 class="title is-3 has-text-centered" style="color: var(--text);">Cite this report:</h2>
+    <pre style="background-color: #1e1e1e; color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 15px;"><code>@article{xsafe2026safety,
+  title={A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Nano Banana Pro, and Seedream 4.5},
+  author={XSafe AI Team},
+  journal={Technical Report},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+<!-- Modal for Zooming Images -->
+<div id="image-modal" class="modal">
+  <div class="modal-background" onclick="closeModal()"></div>
+  <div class="modal-content">
+    <img id="modal-img" src="" alt="Enlarged Image">
+  </div>
+  <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+</div>
+
+<!-- ======== JS: Tabs Logic ======== -->
+<script>
+function openTab(evt, tabName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("tab-content");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" is-active", "");
+  }
+  tablinks = document.querySelectorAll(".tabs li");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace("is-active", "");
+  }
+  document.getElementById(tabName).className += " is-active";
+  evt.currentTarget.className += " is-active";
+}
+</script>
+
+<!-- ======== JS: teaser drag-to-scroll logic ======== -->
+<script>
+// Modal Logic
+function openModal(src) {
+    var modal = document.getElementById('image-modal');
+    var modalImg = document.getElementById('modal-img');
+    modalImg.src = src;
+    modal.classList.add('is-active');
+    document.documentElement.classList.add('is-clipped');
+}
+function closeModal() {
+    var modal = document.getElementById('image-modal');
+    modal.classList.remove('is-active');
+    document.documentElement.classList.remove('is-clipped');
+}
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+});
+
+window.addEventListener('load', function() {
+  // 封装成函数以支持多个走马灯
+  function initCarousel(containerId, carouselId) {
+    const container = document.getElementById(containerId);
+    const carousel = document.getElementById(carouselId);
+    if (!container || !carousel) return;
+
+    const images = carousel.querySelectorAll('.teaser-img');
+    let isDragging = false, startX = 0, currentX = 0, scrollSpeed = 0.5, loopWidth = 0, isMouseOver = false; 
+    let hasMoved = false; // Flag to distinguish click from drag
+
+    function init() {
+      if (images.length === 0) return;
+      // 动态计算循环宽度 (假设内容被复制了一份用于循环，使用 scrollWidth / 2 估算)
+      loopWidth = carousel.scrollWidth / 2; 
+      requestAnimationFrame(autoScroll);
+    }
+    
+    function setPosition(x) { currentX = x; carousel.style.transform = `translateX(${currentX}px)`; }
+    
+    function autoScroll() {
+      if (!isMouseOver && !isDragging && loopWidth > 0) {
+        currentX -= scrollSpeed;
+        if (currentX <= -loopWidth) currentX += loopWidth;
+        setPosition(currentX);
+      }
+      requestAnimationFrame(autoScroll);
+    }
+
+    // Mouse events
+    carousel.addEventListener('mousedown', (e) => { 
+        e.preventDefault(); 
+        isDragging = true; 
+        hasMoved = false; // Reset
+        startX = e.clientX - currentX; 
+        carousel.classList.add('dragging'); 
+        // removed pointerEvents manipulation to allow click event
+    });
+    
+    document.addEventListener('mousemove', (e) => { 
+        if (!isDragging) return; 
+        const newX = e.clientX - startX; 
+        if (Math.abs(newX - currentX) > 5) hasMoved = true; // Identify as drag if moved > 5px
+        setPosition(newX); 
+    });
+    
+    document.addEventListener('mouseup', () => { 
+        if (!isDragging) return; 
+        isDragging = false; 
+        carousel.classList.remove('dragging'); 
+    });
+    
+    container.addEventListener('mouseenter', () => { isMouseOver = true; });
+    container.addEventListener('mouseleave', () => { isMouseOver = false; isDragging = false; carousel.classList.remove('dragging'); });
+    
+    // Touch events
+    carousel.addEventListener('touchstart', (e) => { 
+        isDragging = true; 
+        hasMoved = false;
+        startX = e.touches[0].clientX - currentX; 
+        carousel.classList.add('dragging'); 
+    }, { passive: false });
+    
+    document.addEventListener('touchmove', (e) => { 
+        if (!isDragging) return; 
+        // e.preventDefault(); 
+        const newX = e.touches[0].clientX - startX; 
+        if (Math.abs(newX - currentX) > 5) hasMoved = true;
+        setPosition(newX); 
+    }, { passive: false });
+    
+    document.addEventListener('touchend', () => { 
+        if (!isDragging) return; 
+        isDragging = false; 
+        carousel.classList.remove('dragging'); 
+    });
+    
+    // Add Click listeners
+    images.forEach(img => {
+        img.addEventListener('click', function() {
+            if (!hasMoved) { // Only open if it wasn't a drag action
+                openModal(this.src);
+            }
+        });
+    });
+
+    setTimeout(init, 100);
+  }
+
+  // 初始化两个走马灯
+  initCarousel('container', 'carousel');
+  initCarousel('container-spec', 'carousel-spec');
+});
+</script>
+</body>
+</html>
