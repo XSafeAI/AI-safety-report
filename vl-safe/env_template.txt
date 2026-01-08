@@ -1,0 +1,99 @@
+# ===============================================
+# GeminiEvaluation 环境变量配置模板
+# ===============================================
+# 使用说明：
+# 1. 复制此文件为 .env: cp env_template.txt .env
+# 2. 填写你需要使用的 API Keys
+# 3. 未使用的 API Key 可以保持注释或留空
+# ===============================================
+
+# -----------------------------------------------
+# Gemini API (Google AI)
+# -----------------------------------------------
+# 获取地址: https://aistudio.google.com/app/apikey
+# 支持模型: gemini-3-pro-preview, gemini-2.5-pro, gemini-2.5-flash
+GEMINI_API_KEY=your-gemini-api-key-here
+
+# -----------------------------------------------
+# OpenAI API
+# -----------------------------------------------
+# 获取地址: https://platform.openai.com/api-keys
+# 支持模型: gpt-5, gpt-5-mini, gpt-4.1, gpt-4o, gpt-4o-mini
+OPENAI_API_KEY=your-openai-api-key-here
+
+# -----------------------------------------------
+# DeepSeek API
+# -----------------------------------------------
+# 获取地址: https://platform.deepseek.com/api_keys
+# 支持模型: deepseek-reasoner, deepseek-chat
+DEEPSEEK_API_KEY=your-deepseek-api-key-here
+
+# -----------------------------------------------
+# DashScope API (阿里云通义千问)
+# -----------------------------------------------
+# 获取地址: https://dashscope.console.aliyun.com/apiKey
+# 支持模型: qwen3-vl-*-thinking, qwen3-vl-*-instruct, qwen2.5-vl-*-instruct
+DASHSCOPE_API_KEY=your-dashscope-api-key-here
+
+# -----------------------------------------------
+# Ark API (火山引擎豆包)
+# -----------------------------------------------
+# 获取地址: https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey
+# 支持模型: doubao-seed-1-6-251015, doubao-seed-1-6-vision-250815
+ARK_API_KEY=your-ark-api-key-here
+
+# -----------------------------------------------
+# XAI API (Grok by xAI)
+# -----------------------------------------------
+# 获取地址: https://console.x.ai/
+# 支持模型: grok-4-1-fast-non-reasoning, grok-4-1-reasoning
+XAI_API_KEY=your-xai-api-key-here
+
+# -----------------------------------------------
+# SiliconFlow API
+# -----------------------------------------------
+# 获取地址: https://cloud.siliconflow.cn/account/ak
+# 支持模型: 多种开源模型
+SILICONFLOW_API_KEY=your-siliconflow-api-key-here
+
+# ===============================================
+# 可选配置项
+# ===============================================
+
+# -----------------------------------------------
+# 代理设置 (可选)
+# -----------------------------------------------
+# 如果需要通过代理访问 API，请取消注释并配置
+# HTTP_PROXY=http://127.0.0.1:7890
+# HTTPS_PROXY=http://127.0.0.1:7890
+# NO_PROXY=localhost,127.0.0.1
+
+# -----------------------------------------------
+# 日志级别 (可选)
+# -----------------------------------------------
+# 可选值: DEBUG, INFO, WARNING, ERROR, CRITICAL
+# LOG_LEVEL=INFO
+
+# -----------------------------------------------
+# 数据路径配置 (可选)
+# -----------------------------------------------
+# 如果需要自定义数据路径，请取消注释并配置
+# RAW_DATA_ROOT=/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw
+# PROCESSED_DATA_ROOT=/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed
+# RESULTS_ROOT=/data/data-pool/dingyifan/GeminiEvaluation/workspace/results
+
+# -----------------------------------------------
+# 模型路径配置 (可选)
+# -----------------------------------------------
+# 本地评判模型路径
+# JUDGE_MODEL_PATH=/data/data-pool/dingyifan/GeminiEvaluation/external/model/Qwen3Guard-Gen-8B
+
+# ===============================================
+# 注意事项
+# ===============================================
+# 1. 不要将包含真实 API Key 的 .env 文件提交到 Git
+# 2. .env 文件已经在 .gitignore 中，不会被提交
+# 3. 定期轮换你的 API Keys 以确保安全
+# 4. 建议使用环境变量管理工具（如 direnv）来管理敏感信息
+# 5. 生产环境建议使用密钥管理服务（如 AWS Secrets Manager）
+# ===============================================
