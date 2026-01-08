@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 使用方式：
+# Usage:
 #   bash download_vlm_safety_benchmarks.sh /your/target/path
-# 若不传参数，则默认使用当前目录下的 ./vlm_safety_benchmarks
+# If no argument is provided, defaults to ./vlm_safety_benchmarks in current directory
 TARGET_DIR="/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/raw"
 mkdir -p "$TARGET_DIR"
 
@@ -14,8 +14,8 @@ echo
 export HF_ENDPOINT="https://hf-mirror.com"
 
 hf_download () {
-  local repo_id="$1"   # huggingface 数据集 ID
-  local subdir="$2"    # 本地存放子目录名
+  local repo_id="$1"   # huggingface dataset ID
+  local subdir="$2"    # local subdirectory name
 
   local out_dir="$TARGET_DIR/$subdir"
   # if [ -d "$out_dir" ]; then
@@ -50,7 +50,7 @@ git_clone () {
 
 #############################
 # 1. UNICORN / vllm_safety_evaluation
-#    - 包含 OODCV-VQA, Sketchy-VQA 等
+#    - Contains OODCV-VQA, Sketchy-VQA, etc.
 #############################
 hf_download "PahaII/vllm_safety_evaluation" "UNICORN_vllm_safety_evaluation"
 
@@ -60,7 +60,7 @@ hf_download "PahaII/vllm_safety_evaluation" "UNICORN_vllm_safety_evaluation"
 hf_download "JailbreakV-28K/JailBreakV-28k" "JailbreakV-28k"
 
 #############################
-# 3. MIS（Train & Test）
+# 3. MIS (Train & Test)
 #############################
 hf_download "Tuwhy/MIS_Test"  "MIS_Test"
 
@@ -70,13 +70,13 @@ hf_download "Tuwhy/MIS_Test"  "MIS_Test"
 hf_download "wang021/VLBreakBench" "VLJailbreakBench"
 
 #############################
-# 5. USB（Unified Safety Benchmark）
+# 5. USB (Unified Safety Benchmark)
 #############################
 hf_download "cgjacklin/USB" "USB"
 
 #############################
-# 6. MemeSafetyBench（Meme-Safety-Bench）
-#    同样是 gated dataset，需先在网页上同意条款
+# 6. MemeSafetyBench (Meme-Safety-Bench)
+#    Also a gated dataset, need to agree to terms on the website first
 #############################
 hf_download "oneonlee/Meme-Safety-Bench" "MemeSafetyBench"
 

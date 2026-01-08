@@ -1,5 +1,5 @@
 """
-LLM Provider基类定义
+LLM Provider base class definition
 """
 
 from abc import ABC, abstractmethod
@@ -7,18 +7,18 @@ from typing import Any, Dict, List, Optional
 
 
 class BaseLLMProvider(ABC):
-    """LLM Provider基类"""
+    """LLM Provider base class"""
     
-    # 子类必须定义支持的模型列表
+    # Subclasses must define supported model list
     SUPPORTED_MODELS: List[str] = []
     
     def __init__(self, api_key: Optional[str] = None, **kwargs):
         """
-        初始化Provider
+        Initialize Provider
         
         Args:
-            api_key: API密钥，如果不提供则从环境变量读取
-            **kwargs: 其他配置参数
+            api_key: API key, reads from environment variables if not provided
+            **kwargs: Other configuration parameters
         """
         self.api_key = api_key
         self.config = kwargs
@@ -32,19 +32,19 @@ class BaseLLMProvider(ABC):
         **kwargs
     ) -> Any:
         """
-        统一的completion接口
+        Unified completion interface
         
         Args:
-            model: 模型名称
-            messages: 消息列表
-            return_full_response: 是否返回完整的response对象，默认False返回解析后的文本
-            **kwargs: 其他参数
+            model: Model name
+            messages: Message list
+            return_full_response: Whether to return full response object, default False returns parsed text
+            **kwargs: Other parameters
             
         Returns:
-            - 当return_full_response=False时：
-                - 对于普通模型：返回字符串（输出内容）
-                - 对于有思考内容的模型：返回字典 {"content": "...", "thinking_content": "..."}
-            - 当return_full_response=True时：返回完整的API响应对象
+            - When return_full_response=False:
+                - For normal models: returns string (output content)
+                - For models with thinking content: returns dictionary {"content": "...", "thinking_content": "..."}
+            - When return_full_response=True: returns full API response object
         """
         pass
     
@@ -57,43 +57,43 @@ class BaseLLMProvider(ABC):
         **kwargs
     ) -> Any:
         """
-        统一的异步completion接口
+        Unified async completion interface
         
         Args:
-            model: 模型名称
-            messages: 消息列表
-            return_full_response: 是否返回完整的response对象，默认False返回解析后的文本
-            **kwargs: 其他参数
+            model: Model name
+            messages: Message list
+            return_full_response: Whether to return full response object, default False returns parsed text
+            **kwargs: Other parameters
             
         Returns:
-            - 当return_full_response=False时：
-                - 对于普通模型：返回字符串（输出内容）
-                - 对于有思考内容的模型：返回字典 {"content": "...", "thinking_content": "..."}
-            - 当return_full_response=True时：返回完整的API响应对象
+            - When return_full_response=False:
+                - For normal models: returns string (output content)
+                - For models with thinking content: returns dictionary {"content": "...", "thinking_content": "..."}
+            - When return_full_response=True: returns full API response object
         """
         pass
     
     @classmethod
     def get_supported_models(cls) -> List[str]:
         """
-        获取支持的模型列表（类方法，可在未实例化时调用）
+        Get list of supported models (class method, can be called before instantiation)
         
         Returns:
-            支持的模型列表
+            List of supported models
         """
         return cls.SUPPORTED_MODELS
     
     def supports_model(self, model: str) -> bool:
         """
-        判断是否支持该模型
+        Determine if the model is supported
         
         Args:
-            model: 模型名称
+            model: Model name
             
         Returns:
-            是否支持
+            Whether supported
         """
-        # 支持精确匹配或前缀匹配
+        # Supports exact match or prefix match
         return any(model.startswith(supported) or model == supported 
                    for supported in self.SUPPORTED_MODELS)
 

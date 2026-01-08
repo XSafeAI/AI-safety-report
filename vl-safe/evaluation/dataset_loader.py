@@ -1,6 +1,6 @@
 """
-数据加载工具类
-提供便捷的数据集加载和访问功能
+Data loading utility class
+Provides convenient dataset loading and access functions
 """
 
 import json
@@ -11,38 +11,38 @@ from PIL import Image
 
 class DatasetLoader:
     """
-    数据集加载器
+    Dataset loader
     
-    用于加载和访问处理后的JSONL格式数据集
+    Used to load and access processed JSONL format datasets
     """
     
     def __init__(self, jsonl_path: str):
         """
-        初始化数据集加载器
+        Initialize dataset loader
         
         Args:
-            jsonl_path: 处理后的JSONL文件路径
+            jsonl_path: Path to processed JSONL file
         """
         self.jsonl_path = Path(jsonl_path)
         if not self.jsonl_path.exists():
-            raise FileNotFoundError(f"数据集文件不存在: {jsonl_path}")
+            raise FileNotFoundError(f"Dataset file does not exist: {jsonl_path}")
         
-        # 缓存数据集名称和统计信息
+        # Cache dataset name and statistics
         self._dataset_name = self.jsonl_path.stem
         self._total_samples = None
     
     def __len__(self) -> int:
-        """返回数据集样本数量"""
+        """Return number of samples in dataset"""
         if self._total_samples is None:
             self._total_samples = sum(1 for _ in self.iter_samples())
         return self._total_samples
     
     def iter_samples(self) -> Iterator[Dict[str, Any]]:
         """
-        迭代访问数据集样本
+        Iterate through dataset samples
         
         Yields:
-            样本字典，包含prompt, images, meta字段
+            Sample dictionary containing prompt, images, meta fields
         """
         with open(self.jsonl_path, 'r', encoding='utf-8') as f:
             for line_num, line in enumerate(f, 1):
@@ -51,31 +51,31 @@ class DatasetLoader:
                 
                 try:
                     sample = json.loads(line)
-                    # 添加行号作为ID
+                    # Add line number as ID
                     sample['_id'] = line_num
                     yield sample
                 except json.JSONDecodeError as e:
-                    print(f"警告: 第{line_num}行JSON解析失败: {e}")
+                    print(f"Warning: JSON parsing failed at line {line_num}: {e}")
                     continue
     
     def load_all(self) -> List[Dict[str, Any]]:
         """
-        加载所有样本到内存
+        Load all samples into memory
         
         Returns:
-            样本列表
+            List of samples
         """
         return list(self.iter_samples())
     
     def get_sample(self, index: int) -> Optional[Dict[str, Any]]:
         """
-        获取指定索引的样本
+        Get sample at specified index
         
         Args:
-            index: 样本索引（从0开始）
+            index: Sample index (starting from 0)
             
         Returns:
-            样本字典，如果索引超出范围则返回None
+            Sample dictionary, or None if index out of range
         """
         for i, sample in enumerate(self.iter_samples()):
             if i == index:
@@ -84,32 +84,32 @@ class DatasetLoader:
     
     def iter_with_images(self) -> Iterator[Dict[str, Any]]:
         """
-        迭代访问数据集样本，并加载图片
+        Iterate through dataset samples and load images
         
         Yields:
-            样本字典，images字段从路径列表变为PIL Image对象列表
+            Sample dictionary, with images field changed from path list to PIL Image object list
         """
         for sample in self.iter_samples():
-            # 加载图片
+            # Load images
             loaded_images = []
             for img_path in sample.get('images', []):
                 try:
                     img = Image.open(img_path)
                     loaded_images.append(img)
                 except Exception as e:
-                    print(f"警告: 图片加载失败 {img_path}: {e}")
+                    print(f"Warning: Failed to load image {img_path}: {e}")
                     continue
             
-            # 更新样本
+            # Update sample
             sample['loaded_images'] = loaded_images
             yield sample
     
     def get_statistics(self) -> Dict[str, Any]:
         """
-        获取数据集统计信息
+        Get dataset statistics
         
         Returns:
-            统计信息字典
+            Statistics dictionary
         """
         from collections import Counter
         
@@ -149,13 +149,13 @@ class DatasetLoader:
     
     def filter_by_category(self, category: str) -> Iterator[Dict[str, Any]]:
         """
-        按类别筛选样本
+        Filter samples by category
         
         Args:
-            category: 类别名称
+            category: Category name
             
         Yields:
-            符合条件的样本
+            Matching samples
         """
         for sample in self.iter_samples():
             if sample.get('meta', {}).get('category') == category:
@@ -163,13 +163,13 @@ class DatasetLoader:
     
     def filter_by_task_type(self, task_type: str) -> Iterator[Dict[str, Any]]:
         """
-        按任务类型筛选样本
+        Filter samples by task type
         
         Args:
-            task_type: 任务类型
+            task_type: Task type
             
         Yields:
-            符合条件的样本
+            Matching samples
         """
         for sample in self.iter_samples():
             if sample.get('meta', {}).get('task_type') == task_type:
@@ -178,22 +178,22 @@ class DatasetLoader:
 
 class MultiDatasetLoader:
     """
-    多数据集加载器
+    Multi-dataset loader
     
-    用于同时加载和管理多个数据集
+    Used to load and manage multiple datasets simultaneously
     """
     
     def __init__(self, processed_root: str = "/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"):
         """
-        初始化多数据集加载器
+        Initialize multi-dataset loader
         
         Args:
-            processed_root: 处理后数据根目录
+            processed_root: Processed data root directory
         """
         self.processed_root = Path(processed_root)
         self.datasets = {}
         
-        # 自动发现所有JSONL文件
+        # Automatically discover all JSONL files
         if self.processed_root.exists():
             for jsonl_file in self.processed_root.glob('*.jsonl'):
                 dataset_name = jsonl_file.stem
@@ -201,28 +201,28 @@ class MultiDatasetLoader:
     
     def __getitem__(self, dataset_name: str) -> DatasetLoader:
         """
-        获取指定数据集的加载器
+        Get loader for specified dataset
         
         Args:
-            dataset_name: 数据集名称
+            dataset_name: Dataset name
             
         Returns:
-            数据集加载器
+            Dataset loader
         """
         if dataset_name not in self.datasets:
-            raise KeyError(f"数据集不存在: {dataset_name}. 可用数据集: {list(self.datasets.keys())}")
+            raise KeyError(f"Dataset does not exist: {dataset_name}. Available datasets: {list(self.datasets.keys())}")
         return self.datasets[dataset_name]
     
     def list_datasets(self) -> List[str]:
-        """返回所有可用数据集名称"""
+        """Return all available dataset names"""
         return list(self.datasets.keys())
     
     def get_all_statistics(self) -> Dict[str, Dict[str, Any]]:
         """
-        获取所有数据集的统计信息
+        Get statistics for all datasets
         
         Returns:
-            数据集名称到统计信息的字典
+            Dictionary mapping dataset names to statistics
         """
         return {
             name: loader.get_statistics()
@@ -231,60 +231,60 @@ class MultiDatasetLoader:
     
     def iter_all_samples(self) -> Iterator[Dict[str, Any]]:
         """
-        迭代所有数据集的所有样本
+        Iterate through all samples in all datasets
         
         Yields:
-            样本字典
+            Sample dictionary
         """
         for dataset_name, loader in self.datasets.items():
             for sample in loader.iter_samples():
                 yield sample
 
 
-# 使用示例
+# Usage examples
 if __name__ == '__main__':
-    # 示例1: 加载单个数据集
-    print("示例1: 加载单个数据集")
+    # Example 1: Load single dataset
+    print("Example 1: Load single dataset")
     loader = DatasetLoader('/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed/vljailbreakbench.jsonl')
     
-    print(f"数据集: {loader._dataset_name}")
-    print(f"样本数: {len(loader)}")
+    print(f"Dataset: {loader._dataset_name}")
+    print(f"Sample count: {len(loader)}")
     
-    # 获取第一个样本
+    # Get first sample
     sample = loader.get_sample(0)
     if sample:
-        print(f"\n第一个样本:")
+        print(f"\nFirst sample:")
         print(f"  Prompt: {sample['prompt'][:100]}...")
-        print(f"  图片数量: {len(sample['images'])}")
+        print(f"  Image count: {len(sample['images'])}")
         print(f"  Meta: {sample['meta']}")
     
-    # 示例2: 统计信息
+    # Example 2: Statistics
     print("\n" + "="*80)
-    print("示例2: 统计信息")
+    print("Example 2: Statistics")
     stats = loader.get_statistics()
-    print(f"总样本数: {stats['total_samples']}")
-    print(f"包含图片: {stats['with_images']}")
-    print(f"任务类型: {stats['task_types']}")
+    print(f"Total samples: {stats['total_samples']}")
+    print(f"With images: {stats['with_images']}")
+    print(f"Task types: {stats['task_types']}")
     
-    # 示例3: 加载多个数据集
+    # Example 3: Load multiple datasets
     print("\n" + "="*80)
-    print("示例3: 加载多个数据集")
+    print("Example 3: Load multiple datasets")
     multi_loader = MultiDatasetLoader()
     
-    print(f"可用数据集: {multi_loader.list_datasets()}")
+    print(f"Available datasets: {multi_loader.list_datasets()}")
     
-    # 访问特定数据集
+    # Access specific dataset
     if 'usb' in multi_loader.list_datasets():
         usb_loader = multi_loader['usb']
-        print(f"\nUSB数据集样本数: {len(usb_loader)}")
+        print(f"\nUSB dataset sample count: {len(usb_loader)}")
     
-    # 示例4: 筛选样本
+    # Example 4: Filter samples
     print("\n" + "="*80)
-    print("示例4: 筛选样本")
+    print("Example 4: Filter samples")
     count = 0
     for sample in loader.filter_by_task_type('jailbreak'):
         count += 1
-        if count >= 3:  # 只显示前3个
+        if count >= 3:  # Only show first 3
             break
-    print(f"筛选出的jailbreak样本: {count}个")
+    print(f"Filtered jailbreak samples: {count}")
 

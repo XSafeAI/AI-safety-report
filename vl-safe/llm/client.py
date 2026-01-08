@@ -1,5 +1,5 @@
 """
-统一的LLM客户端
+Unified LLM client
 """
 
 import asyncio
@@ -16,24 +16,24 @@ from .xai_provider import XAIProvider
 
 
 class LLMClient:
-    """统一的LLM调用客户端（使用懒加载模式）"""
+    """Unified LLM calling client (using lazy loading pattern)"""
     
     def __init__(self, **provider_configs):
         """
-        初始化LLM客户端
+        Initialize LLM client
         
         Args:
-            **provider_configs: 各个provider的配置
-                例如: openai_api_key="xxx", qwen_api_key="yyy"
+            **provider_configs: Configuration for each provider
+                For example: openai_api_key="xxx", qwen_api_key="yyy"
         
-        注意：使用懒加载模式，provider只在第一次使用时才会被初始化
+        Note: Using lazy loading pattern, provider will only be initialized on first use
         """
         self.provider_configs = provider_configs
         
-        # 使用字典存储已初始化的provider实例（懒加载）
+        # Use dictionary to store initialized provider instances (lazy loading)
         self._initialized_providers: Dict[str, BaseLLMProvider] = {}
         
-        # Provider类型映射表（定义支持的provider类型）
+        # Provider type mapping table (defines supported provider types)
         self._provider_classes = {
             'openai': OpenAIProvider,
             'ark': ArkProvider,
@@ -44,36 +44,36 @@ class LLMClient:
             'xai': XAIProvider,
         }
         
-        # 自动构建模型到provider的映射表
+        # Automatically build model to provider mapping table
         self._model_to_provider_map = self._build_model_mapping()
     
     def _build_model_mapping(self) -> Dict[str, str]:
         """
-        自动构建模型到provider类型的映射表
-        从每个provider类获取支持的模型列表，构建映射关系
+        Automatically build mapping table from models to provider types
+        Get supported model list from each provider class and build mapping relationship
         
         Returns:
-            模型前缀到provider类型的映射字典
+            Mapping dictionary from model prefix to provider type
         """
         mapping = {}
         for provider_type, provider_class in self._provider_classes.items():
-            # 获取该provider支持的模型列表
+            # Get supported model list for this provider
             supported_models = provider_class.get_supported_models()
             for model in supported_models:
-                # 使用模型名作为key，provider类型作为value
+                # Use model name as key, provider type as value
                 mapping[model] = provider_type
         return mapping
     
     def _get_provider_for_model(self, model: str) -> Optional[str]:
         """
-        根据模型名称判断应该使用哪个provider
-        使用自动构建的映射表进行查找
+        Determine which provider should be used based on model name
+        Use automatically built mapping table for lookup
         
         Args:
-            model: 模型名称
+            model: Model name
             
         Returns:
-            provider类型名称，如果没有找到则返回None
+            Provider type name, returns None if not found
         """
         if model in self._model_to_provider_map:
             return self._model_to_provider_map[model]
@@ -82,24 +82,24 @@ class LLMClient:
     
     def _get_or_create_provider(self, provider_type: str) -> BaseLLMProvider:
         """
-        获取或创建provider实例（懒加载）
+        Get or create provider instance (lazy loading)
         
         Args:
-            provider_type: provider类型名称
+            provider_type: Provider type name
             
         Returns:
-            provider实例
+            Provider instance
         """
-        # 如果已经初始化过，直接返回
+        # If already initialized, return directly
         if provider_type in self._initialized_providers:
             return self._initialized_providers[provider_type]
         
-        # 获取provider类
+        # Get provider class
         provider_class = self._provider_classes.get(provider_type)
         if provider_class is None:
-            raise ValueError(f"未知的provider类型: {provider_type}")
+            raise ValueError(f"Unknown provider type: {provider_type}")
         
-        # 提取该provider的配置参数
+        # Extract configuration parameters for this provider
         api_key = self.provider_configs.get(f'{provider_type}_api_key')
         provider_specific_config = {
             k.replace(f'{provider_type}_', ''): v 
@@ -107,30 +107,30 @@ class LLMClient:
             if k.startswith(f'{provider_type}_') and k != f'{provider_type}_api_key'
         }
         
-        # 创建provider实例
+        # Create provider instance
         provider = provider_class(api_key=api_key, **provider_specific_config)
         
-        # 缓存实例
+        # Cache instance
         self._initialized_providers[provider_type] = provider
         
         return provider
     
     def _get_provider(self, model: str) -> Optional[BaseLLMProvider]:
         """
-        根据模型名称自动选择对应的provider（懒加载）
+        Automatically select corresponding provider based on model name (lazy loading)
         
         Args:
-            model: 模型名称
+            model: Model name
             
         Returns:
-            对应的provider，如果没有找到则返回None
+            Corresponding provider, returns None if not found
         """
-        # 判断应该使用哪个provider
+        # Determine which provider should be used
         provider_type = self._get_provider_for_model(model)
         if provider_type is None:
             return None
         
-        # 懒加载获取或创建provider
+        # Lazy load get or create provider
         return self._get_or_create_provider(provider_type)
     
     def completion(
@@ -142,34 +142,34 @@ class LLMClient:
         **kwargs
     ) -> Any:
         """
-        统一的completion接口
+        Unified completion interface
         
         Args:
-            model: 模型名称
-            messages: 消息列表
-            return_full_response: 是否返回完整的response对象，默认False返回解析后的内容
-            video_input_mode: 视频输入模式，可选值：
-                - "base64": 视频直接转base64（适用于ark, dashscope）
-                - "frames": 视频抽帧为多张图片（适用于openai, ark, dashscope）
-                - "upload": 上传文件到服务器（适用于gemini）
-                - None: 使用provider的默认行为
-            **kwargs: 其他参数（如reasoning_effort, temperature等）
+            model: Model name
+            messages: Message list
+            return_full_response: Whether to return full response object, default False returns parsed content
+            video_input_mode: Video input mode, optional values:
+                - "base64": Video directly converted to base64 (for ark, dashscope)
+                - "frames": Video extracted to multiple images (for openai, ark, dashscope)
+                - "upload": Upload file to server (for gemini)
+                - None: Use provider's default behavior
+            **kwargs: Other parameters (such as reasoning_effort, temperature, etc.)
             
         Returns:
-            - 当return_full_response=False时：
-                - 对于普通模型：返回字符串（输出内容）
-                - 对于有思考内容的模型：返回字典 {"content": "...", "thinking_content": "..."}
-            - 当return_full_response=True时：返回完整的API响应对象
+            - When return_full_response=False:
+                - For normal models: returns string (output content)
+                - For models with thinking content: returns dictionary {"content": "...", "thinking_content": "..."}
+            - When return_full_response=True: returns full API response object
             
         Raises:
-            ValueError: 当模型不支持时抛出异常
+            ValueError: Raised when model is not supported
         """
         provider = self._get_provider(model)
         
         if provider is None:
             raise ValueError(
-                f"未找到支持模型 '{model}' 的provider。"
-                f"请检查模型名称是否正确。"
+                f"Provider not found for model '{model}'. "
+                f"Please check if the model name is correct."
             )
         
         return provider.completion(
@@ -189,34 +189,34 @@ class LLMClient:
         **kwargs
     ) -> Any:
         """
-        统一的异步completion接口
+        Unified async completion interface
         
         Args:
-            model: 模型名称
-            messages: 消息列表
-            return_full_response: 是否返回完整的response对象，默认False返回解析后的内容
-            video_input_mode: 视频输入模式，可选值：
-                - "base64": 视频直接转base64（适用于ark, dashscope）
-                - "frames": 视频抽帧为多张图片（适用于openai, ark, dashscope）
-                - "upload": 上传文件到服务器（适用于gemini）
-                - None: 使用provider的默认行为
-            **kwargs: 其他参数（如reasoning_effort, temperature等）
+            model: Model name
+            messages: Message list
+            return_full_response: Whether to return full response object, default False returns parsed content
+            video_input_mode: Video input mode, optional values:
+                - "base64": Video directly converted to base64 (for ark, dashscope)
+                - "frames": Video extracted to multiple images (for openai, ark, dashscope)
+                - "upload": Upload file to server (for gemini)
+                - None: Use provider's default behavior
+            **kwargs: Other parameters (such as reasoning_effort, temperature, etc.)
             
         Returns:
-            - 当return_full_response=False时：
-                - 对于普通模型：返回字符串（输出内容）
-                - 对于有思考内容的模型：返回字典 {"content": "...", "thinking_content": "..."}
-            - 当return_full_response=True时：返回完整的API响应对象
+            - When return_full_response=False:
+                - For normal models: returns string (output content)
+                - For models with thinking content: returns dictionary {"content": "...", "thinking_content": "..."}
+            - When return_full_response=True: returns full API response object
             
         Raises:
-            ValueError: 当模型不支持时抛出异常
+            ValueError: Raised when model is not supported
         """
         provider = self._get_provider(model)
         
         if provider is None:
             raise ValueError(
-                f"未找到支持模型 '{model}' 的provider。"
-                f"请检查模型名称是否正确。"
+                f"Provider not found for model '{model}'. "
+                f"Please check if the model name is correct."
             )
         
         return await provider.acompletion(
@@ -228,12 +228,12 @@ class LLMClient:
         )
 
 
-# 创建一个全局默认客户端实例
+# Create a global default client instance
 _default_client = None
 
 
 def get_default_client() -> LLMClient:
-    """获取默认的LLM客户端"""
+    """Get default LLM client"""
     global _default_client
     if _default_client is None:
         _default_client = LLMClient()
@@ -248,20 +248,20 @@ def completion(
     **kwargs
 ) -> Any:
     """
-    便捷的completion函数，使用默认客户端
+    Convenient completion function using default client
     
     Args:
-        model: 模型名称
-        messages: 消息列表
-        return_full_response: 是否返回完整的response对象，默认False返回解析后的内容
-        video_input_mode: 视频输入模式（"base64", "frames", "upload"或None）
-        **kwargs: 其他参数
+        model: Model name
+        messages: Message list
+        return_full_response: Whether to return full response object, default False returns parsed content
+        video_input_mode: Video input mode ("base64", "frames", "upload" or None)
+        **kwargs: Other parameters
         
     Returns:
-        - 当return_full_response=False时：
-            - 对于普通模型：返回字符串（输出内容）
-            - 对于有思考内容的模型：返回字典 {"content": "...", "thinking_content": "..."}
-        - 当return_full_response=True时：返回完整的API响应对象
+        - When return_full_response=False:
+            - For normal models: returns string (output content)
+            - For models with thinking content: returns dictionary {"content": "...", "thinking_content": "..."}
+        - When return_full_response=True: returns full API response object
     """
     client = get_default_client()
     return client.completion(
@@ -281,20 +281,20 @@ async def acompletion(
     **kwargs
 ) -> Any:
     """
-    便捷的异步completion函数，使用默认客户端
+    Convenient async completion function using default client
     
     Args:
-        model: 模型名称
-        messages: 消息列表
-        return_full_response: 是否返回完整的response对象，默认False返回解析后的内容
-        video_input_mode: 视频输入模式（"base64", "frames", "upload"或None）
-        **kwargs: 其他参数
+        model: Model name
+        messages: Message list
+        return_full_response: Whether to return full response object, default False returns parsed content
+        video_input_mode: Video input mode ("base64", "frames", "upload" or None)
+        **kwargs: Other parameters
         
     Returns:
-        - 当return_full_response=False时：
-            - 对于普通模型：返回字符串（输出内容）
-            - 对于有思考内容的模型：返回字典 {"content": "...", "thinking_content": "..."}
-        - 当return_full_response=True时：返回完整的API响应对象
+        - When return_full_response=False:
+            - For normal models: returns string (output content)
+            - For models with thinking content: returns dictionary {"content": "...", "thinking_content": "..."}
+        - When return_full_response=True: returns full API response object
     """
     client = get_default_client()
     return await client.acompletion(

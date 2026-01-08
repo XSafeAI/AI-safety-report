@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 重新评测错误样本的示例脚本
+# Example script for re-evaluating error samples
 
 python /data/data-pool/dingyifan/GeminiEvaluation/evaluation/evaluate.py \
     --retry-errors "/data/data-pool/dingyifan/GeminiEvaluation/workspace/results/grok-4-1-fast-non-reasoning/vljailbreakbench_20251222_183605.jsonl" \
@@ -10,5 +10,4 @@ python /data/data-pool/dingyifan/GeminiEvaluation/evaluation/evaluate.py \
 
 
 
-echo "重新评测完成！"
-
+echo "Re-evaluation completed!"

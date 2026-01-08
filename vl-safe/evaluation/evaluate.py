@@ -1,6 +1,6 @@
 """
-LLM模型评测脚本
-使用统一的llm库对数据集进行推理评测
+LLM model evaluation script
+Uses unified llm library for inference evaluation on datasets
 """
 
 import os
@@ -15,28 +15,28 @@ from PIL import Image
 import time
 from tqdm import tqdm
 
-# 导入统一的llm库
+# Import unified llm library
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from llm import completion, acompletion
 
 
 class LLMEvaluator:
-    """LLM评测器（支持多种模型）"""
+    """LLM evaluator (supports multiple models)"""
     
     def __init__(self, model_name: str, concurrency: int = 5, 
                  reasoning_effort: str = "low", max_tokens: int = 256,
                  retry_times: int = 3, retry_delay: float = 3.0):
         """
-        初始化评测器
+        Initialize evaluator
         
         Args:
-            model_name: 模型名称（如：gemini-3-pro-preview, gpt-5-mini, deepseek-reasoner等）
-            concurrency: 并发数（1表示串行执行）
-            reasoning_effort: 推理强度（"low", "medium", "high"，默认："low"）
-            max_tokens: 最大生成token数（默认：256）
-            retry_times: 重试次数（默认：3）
-            retry_delay: 每次重试等待时间，单位秒（默认：3.0）
+            model_name: Model name (e.g.: gemini-3-pro-preview, gpt-5-mini, deepseek-reasoner, etc.)
+            concurrency: Concurrency level (1 means serial execution)
+            reasoning_effort: Reasoning effort ("low", "medium", "high", default: "low")
+            max_tokens: Maximum number of tokens to generate (default: 256)
+            retry_times: Number of retries (default: 3)
+            retry_delay: Wait time before each retry in seconds (default: 3.0)
         """
         self.model_name = model_name
         self.concurrency = concurrency
@@ -45,43 +45,43 @@ class LLMEvaluator:
         self.retry_times = retry_times
         self.retry_delay = retry_delay
         
-        print(f"✓ 初始化LLM评测器")
-        print(f"  模型: {model_name}")
-        print(f"  并发数: {concurrency}")
-        print(f"  推理强度: {reasoning_effort}")
-        print(f"  最大tokens: {max_tokens}")
-        print(f"  重试次数: {retry_times}")
-        print(f"  重试等待: {retry_delay}秒")
+        print(f"✓ Initializing LLM evaluator")
+        print(f"  Model: {model_name}")
+        print(f"  Concurrency: {concurrency}")
+        print(f"  Reasoning effort: {reasoning_effort}")
+        print(f"  Max tokens: {max_tokens}")
+        print(f"  Retry times: {retry_times}")
+        print(f"  Retry delay: {retry_delay} seconds")
     
     def _build_messages(self, prompt: str, images: List[str]) -> List[Dict[str, Any]]:
         """
-        构建OpenAI风格的messages格式
+        Build OpenAI-style messages format
         
         Args:
-            prompt: 文本提示
-            images: 图片路径列表
+            prompt: Text prompt
+            images: List of image paths
             
         Returns:
-            messages列表
+            List of messages
         """
-        # 如果没有图片，直接返回文本消息
+        # If no images, return text message directly
         if not images:
             return [{"role": "user", "content": prompt}]
         
-        # 构建多模态内容
+        # Build multimodal content
         content = []
         
-        # 添加图片
+        # Add images
         for img_path in images:
             if os.path.exists(img_path):
                 content.append({
                     "type": "image_url",
                     "image_url": {
-                        "url": img_path  # 本地路径，会自动处理
+                        "url": img_path  # Local path, will be automatically processed
                     }
                 })
         
-        # 添加文本
+        # Add text
         content.append({
             "type": "text",
             "text": prompt
@@ -91,19 +91,19 @@ class LLMEvaluator:
     
     async def generate_async(self, prompt: str, images: List[str]) -> Dict[str, Any]:
         """
-        真正的异步生成响应（使用统一llm库的acompletion，带重试机制）
+        True async response generation (using unified llm library's acompletion with retry mechanism)
         
         Args:
-            prompt: 文本提示
-            images: 图片路径列表
+            prompt: Text prompt
+            images: List of image paths
             
         Returns:
-            包含响应和元数据的字典
+            Dictionary containing response and metadata
         """
-        # 构建messages
+        # Build messages
         messages = self._build_messages(prompt, images)
         
-        # 实现重试逻辑
+        # Implement retry logic
         last_error = None
         for attempt in range(self.retry_times):
             try:
@@ -114,7 +114,7 @@ class LLMEvaluator:
                     max_tokens=self.max_tokens
                 )
                 
-                # 成功返回
+                # Return on success
                 return {
                     'success': True,
                     'response': response,
@@ -124,15 +124,15 @@ class LLMEvaluator:
                 
             except Exception as e:
                 last_error = e
-                print(f"⚠️  API调用失败 (尝试 {attempt + 1}/{self.retry_times}): {str(e)}")
+                print(f"⚠️  API call failed (attempt {attempt + 1}/{self.retry_times}): {str(e)}")
                 
-                # 如果不是最后一次尝试，等待后重试
+                # If not last attempt, wait before retry
                 if attempt < self.retry_times - 1:
-                    print(f"   等待 {self.retry_delay} 秒后重试...")
+                    print(f"   Waiting {self.retry_delay} seconds before retry...")
                     await asyncio.sleep(self.retry_delay)
         
-        # 所有重试都失败
-        print(f"❌ API调用最终失败，已重试 {self.retry_times} 次")
+        # All retries failed
+        print(f"❌ API call finally failed after {self.retry_times} retries")
         return {
             'success': False,
             'response': None,
@@ -142,19 +142,19 @@ class LLMEvaluator:
     
     def generate_sync(self, prompt: str, images: List[str]) -> Dict[str, Any]:
         """
-        同步生成响应（使用统一llm库，带重试机制）
+        Synchronous response generation (using unified llm library with retry mechanism)
         
         Args:
-            prompt: 文本提示
-            images: 图片路径列表
+            prompt: Text prompt
+            images: List of image paths
             
         Returns:
-            包含响应和元数据的字典
+            Dictionary containing response and metadata
         """
-        # 构建messages
+        # Build messages
         messages = self._build_messages(prompt, images)
         
-        # 实现重试逻辑
+        # Implement retry logic
         last_error = None
         for attempt in range(self.retry_times):
             try:
@@ -165,7 +165,7 @@ class LLMEvaluator:
                     max_tokens=self.max_tokens
                 )
                 
-                # 成功返回
+                # Return on success
                 return {
                     'success': True,
                     'response': response,
@@ -175,15 +175,15 @@ class LLMEvaluator:
                 
             except Exception as e:
                 last_error = e
-                print(f"⚠️  API调用失败 (尝试 {attempt + 1}/{self.retry_times}): {str(e)}")
+                print(f"⚠️  API call failed (attempt {attempt + 1}/{self.retry_times}): {str(e)}")
                 
-                # 如果不是最后一次尝试，等待后重试
+                # If not last attempt, wait before retry
                 if attempt < self.retry_times - 1:
-                    print(f"   等待 {self.retry_delay} 秒后重试...")
+                    print(f"   Waiting {self.retry_delay} seconds before retry...")
                     time.sleep(self.retry_delay)
         
-        # 所有重试都失败
-        print(f"❌ API调用最终失败，已重试 {self.retry_times} 次")
+        # All retries failed
+        print(f"❌ API call finally failed after {self.retry_times} retries")
         return {
             'success': False,
             'response': None,
@@ -193,19 +193,19 @@ class LLMEvaluator:
     
     async def evaluate_batch_async(self, samples: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        异步批量评测
+        Async batch evaluation
         
         Args:
-            samples: 样本列表
+            samples: List of samples
             
         Returns:
-            评测结果列表
+            List of evaluation results
         """
-        # 使用信号量控制并发
+        # Use semaphore to control concurrency
         semaphore = asyncio.Semaphore(self.concurrency)
         
-        # 创建进度条
-        pbar = tqdm(total=len(samples), desc="评测进度", unit="样本")
+        # Create progress bar
+        pbar = tqdm(total=len(samples), desc="Evaluation progress", unit="samples")
         
         async def process_sample(sample, idx):
             async with semaphore:
@@ -213,13 +213,13 @@ class LLMEvaluator:
                 images = sample.get('images', [])
                 meta = sample.get('meta', {})
                 
-                # 调用模型（带重试）
+                # Call model (with retry)
                 result = await self.generate_async(prompt, images)
                 
-                # 更新进度条
+                # Update progress bar
                 pbar.update(1)
 
-                # 返回结果
+                # Return result
                 if not result.get('success', False):
                     return {
                         'prompt': prompt,
@@ -235,36 +235,36 @@ class LLMEvaluator:
                         'meta': meta
                     }
         
-        # 创建所有任务
+        # Create all tasks
         tasks = [process_sample(sample, i) for i, sample in enumerate(samples)]
         
-        # 并发执行，收集结果
+        # Execute concurrently and collect results
         results = await asyncio.gather(*tasks)
         
-        # 关闭进度条
+        # Close progress bar
         pbar.close()
         
         return results
     
     def evaluate_batch_sync(self, samples: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        同步批量评测（串行执行）
+        Synchronous batch evaluation (serial execution)
         
         Args:
-            samples: 样本列表
+            samples: List of samples
             
         Returns:
-            评测结果列表
+            List of evaluation results
         """
         results = []
         
-        # 使用tqdm显示进度
-        for sample in tqdm(samples, desc="评测进度", unit="样本"):
+        # Use tqdm to show progress
+        for sample in tqdm(samples, desc="Evaluation progress", unit="samples"):
             prompt = sample.get('prompt', '')
             images = sample.get('images', [])
             meta = sample.get('meta', {})
             
-            # 调用模型（带重试）
+            # Call model (with retry)
             result = self.generate_sync(prompt, images)
 
             if not result.get('success', False):
@@ -286,18 +286,18 @@ class LLMEvaluator:
     
     async def evaluate_dataset_async(self, dataset_path: str, max_samples: Optional[int] = None) -> List[Dict[str, Any]]:
         """
-        异步评测数据集
+        Async dataset evaluation
         
         Args:
-            dataset_path: 数据集JSONL文件路径
-            max_samples: 最大样本数（用于调试）
+            dataset_path: Dataset JSONL file path
+            max_samples: Maximum number of samples (for debugging)
             
         Returns:
-            评测结果列表
+            List of evaluation results
         """
-        print(f"\n开始评测数据集: {Path(dataset_path).stem}")
+        print(f"\nStarting evaluation on dataset: {Path(dataset_path).stem}")
         
-        # 加载数据集
+        # Load dataset
         samples = []
         with open(dataset_path, 'r', encoding='utf-8') as f:
             for line in f:
@@ -310,57 +310,57 @@ class LLMEvaluator:
                 if max_samples and len(samples) >= max_samples:
                     break
         
-        print(f"加载了 {len(samples)} 个样本")
+        print(f"Loaded {len(samples)} samples")
         
-        # 评测
+        # Evaluate
         if self.concurrency == 1:
-            print("使用串行执行模式...")
+            print("Using serial execution mode...")
             results = self.evaluate_batch_sync(samples)
         else:
-            print(f"使用并发执行模式（并发数: {self.concurrency}）...")
+            print(f"Using concurrent execution mode (concurrency: {self.concurrency})...")
             results = await self.evaluate_batch_async(samples)
         
-        # 统计
+        # Statistics
         success_count = sum(1 for r in results if "response" in r)
         fail_count = len(results) - success_count
         
-        print(f"\n评测完成!")
-        print(f"  成功: {success_count}")
-        print(f"  失败: {fail_count}")
+        print(f"\nEvaluation completed!")
+        print(f"  Success: {success_count}")
+        print(f"  Failed: {fail_count}")
         
         return results
     
     def evaluate_dataset_sync(self, dataset_path: str, max_samples: Optional[int] = None) -> List[Dict[str, Any]]:
         """
-        同步评测数据集（包装异步函数）
+        Synchronous dataset evaluation (wraps async function)
         
         Args:
-            dataset_path: 数据集JSONL文件路径
-            max_samples: 最大样本数（用于调试）
+            dataset_path: Dataset JSONL file path
+            max_samples: Maximum number of samples (for debugging)
             
         Returns:
-            评测结果列表
+            List of evaluation results
         """
         if self.concurrency == 1:
-            # 串行执行，直接调用同步方法
+            # Serial execution, call sync method directly
             return asyncio.run(self.evaluate_dataset_async(dataset_path, max_samples))
         else:
-            # 并发执行，使用asyncio
+            # Concurrent execution, use asyncio
             return asyncio.run(self.evaluate_dataset_async(dataset_path, max_samples))
     
     async def retry_errors_async(self, result_path: str) -> List[Dict[str, Any]]:
         """
-        重新评测包含错误的样本
+        Re-evaluate samples containing errors
         
         Args:
-            result_path: 已有的评测结果文件路径
+            result_path: Path to existing evaluation result file
             
         Returns:
-            更新后的评测结果列表
+            Updated list of evaluation results
         """
-        print(f"\n开始重新评测错误样本: {Path(result_path).name}")
+        print(f"\nStarting re-evaluation of error samples: {Path(result_path).name}")
         
-        # 加载现有结果
+        # Load existing results
         all_results = []
         with open(result_path, 'r', encoding='utf-8') as f:
             for line in f:
@@ -369,15 +369,15 @@ class LLMEvaluator:
                 result = json.loads(line)
                 all_results.append(result)
         
-        print(f"加载了 {len(all_results)} 个结果")
+        print(f"Loaded {len(all_results)} results")
         
-        # 找出包含错误的样本及其索引
+        # Find samples containing errors and their indices
         error_samples = []
         error_indices = []
         
         for idx, result in enumerate(all_results):
             if 'error' in result and 'response' not in result:
-                # 构建样本格式（用于重新评测）
+                # Build sample format (for re-evaluation)
                 sample = {
                     'prompt': result.get('prompt', ''),
                     'images': result.get('images', []),
@@ -387,63 +387,63 @@ class LLMEvaluator:
                 error_indices.append(idx)
         
         if not error_samples:
-            print("没有找到包含错误的样本，无需重新评测")
+            print("No error samples found, no need to re-evaluate")
             return all_results
         
-        print(f"找到 {len(error_samples)} 个错误样本，开始重新评测...")
+        print(f"Found {len(error_samples)} error samples, starting re-evaluation...")
         
-        # 重新评测错误样本
+        # Re-evaluate error samples
         if self.concurrency == 1:
-            print("使用串行执行模式...")
+            print("Using serial execution mode...")
             new_results = self.evaluate_batch_sync(error_samples)
         else:
-            print(f"使用并发执行模式（并发数: {self.concurrency}）...")
+            print(f"Using concurrent execution mode (concurrency: {self.concurrency})...")
             new_results = await self.evaluate_batch_async(error_samples)
         
-        # 将新结果替换回原位置
+        # Replace results back to original positions
         for idx, new_result in zip(error_indices, new_results):
             all_results[idx] = new_result
         
-        # 统计重新评测结果
+        # Statistics for re-evaluation results
         retry_success = sum(1 for r in new_results if "response" in r)
         retry_fail = len(new_results) - retry_success
         
-        print(f"\n重新评测完成!")
-        print(f"  重试样本数: {len(error_samples)}")
-        print(f"  本次成功: {retry_success}")
-        print(f"  仍然失败: {retry_fail}")
+        print(f"\nRe-evaluation completed!")
+        print(f"  Retry samples: {len(error_samples)}")
+        print(f"  This round success: {retry_success}")
+        print(f"  Still failed: {retry_fail}")
         
-        # 统计总体结果
+        # Overall statistics
         total_success = sum(1 for r in all_results if "response" in r)
         total_fail = len(all_results) - total_success
         
-        print(f"\n总体统计:")
-        print(f"  总样本数: {len(all_results)}")
-        print(f"  成功: {total_success}")
-        print(f"  失败: {total_fail}")
+        print(f"\nOverall statistics:")
+        print(f"  Total samples: {len(all_results)}")
+        print(f"  Success: {total_success}")
+        print(f"  Failed: {total_fail}")
         
         return all_results
     
     def retry_errors_sync(self, result_path: str) -> List[Dict[str, Any]]:
         """
-        同步重新评测包含错误的样本（包装异步函数）
+        Synchronous re-evaluation of samples containing errors (wraps async function)
         
         Args:
-            result_path: 已有的评测结果文件路径
+            result_path: Path to existing evaluation result file
             
         Returns:
-            更新后的评测结果列表
+            Updated list of evaluation results
         """
         return asyncio.run(self.retry_errors_async(result_path))
     
     @staticmethod
     def save_results(results: List[Dict[str, Any]], output_path: str):
         """
-        保存评测结果
+        Save evaluation results
         
         Args:
-            results: 评测结果列表
-            output_path: 输出文件路径
+            results: List of evaluation results
+            output_path: Output file path
         """
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -452,47 +452,47 @@ class LLMEvaluator:
             for result in results:
                 f.write(json.dumps(result, ensure_ascii=False) + '\n')
         
-        print(f"\n结果已保存到: {output_path}")
+        print(f"\nResults saved to: {output_path}")
 
 
 def main():
-    """主函数"""
-    parser = argparse.ArgumentParser(description='LLM模型评测脚本（支持多种模型）')
+    """Main function"""
+    parser = argparse.ArgumentParser(description='LLM model evaluation script (supports multiple models)')
     parser.add_argument('--dataset', type=str, 
                        default='vljailbreakbench',
-                       help='数据集名称（例如: vljailbreakbench, usb, mis_test等）')
+                       help='Dataset name (e.g.: vljailbreakbench, usb, mis_test, etc.)')
     parser.add_argument('--max-samples', type=int, default=2,
-                       help='最大评测样本数（用于调试，默认评测全部）')
+                       help='Maximum number of samples to evaluate (for debugging, default evaluates all)')
     parser.add_argument('--concurrency', type=int, default=2,
-                       help='并发数（设为1则串行执行，默认2）')
+                       help='Concurrency level (set to 1 for serial execution, default 2)')
     parser.add_argument('--model', type=str, default='gemini-3-pro-preview',
-                       help='模型名称（支持: gemini-3-pro-preview, gemini-2.5-pro, gpt-5-mini, deepseek-reasoner等）')
+                       help='Model name (supports: gemini-3-pro-preview, gemini-2.5-pro, gpt-5-mini, deepseek-reasoner, etc.)')
     parser.add_argument('--reasoning-effort', type=str, default='low',
                        choices=['low', 'medium', 'high'],
-                       help='推理强度（low/medium/high，默认: low）')
+                       help='Reasoning effort (low/medium/high, default: low)')
     parser.add_argument('--max-tokens', type=int, default=256,
-                       help='最大生成token数（默认: 256）')
+                       help='Maximum number of tokens to generate (default: 256)')
     parser.add_argument('--retry-times', type=int, default=1,
-                       help='API调用失败时的重试次数（默认: 3）')
+                       help='Number of retries on API call failure (default: 3)')
     parser.add_argument('--retry-delay', type=float, default=3.0,
-                       help='每次重试前的等待时间，单位秒（默认: 3.0）')
+                       help='Wait time before each retry in seconds (default: 3.0)')
     parser.add_argument('--processed-root', type=str,
                        default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed',
-                       help='处理后数据根目录')
+                       help='Processed data root directory')
     parser.add_argument('--output-root', type=str,
                        default='/data/data-pool/dingyifan/GeminiEvaluation/workspace/results',
-                       help='结果输出根目录')
+                       help='Result output root directory')
     parser.add_argument('--retry-errors', type=str, default=None,
-                       help='重新评测错误样本的结果文件路径（如: /path/to/results.jsonl）')
+                       help='Path to result file for re-evaluating error samples (e.g.: /path/to/results.jsonl)')
     
     args = parser.parse_args()
     
-    # 加载环境变量（根据模型自动选择）
+    # Load environment variables (auto select based on model)
     env_path = Path('/data/data-pool/dingyifan/GeminiEvaluation/.env')
     if env_path.exists():
         load_dotenv(env_path)
     
-    # 创建评测器
+    # Create evaluator
     evaluator = LLMEvaluator(
         model_name=args.model,
         concurrency=args.concurrency,
@@ -502,56 +502,56 @@ def main():
         retry_delay=args.retry_delay
     )
     
-    # 判断是重新评测错误还是正常评测
+    # Determine whether to retry errors or normal evaluation
     if args.retry_errors:
-        # 重新评测错误样本模式
+        # Re-evaluation of error samples mode
         result_path = Path(args.retry_errors)
         
         if not result_path.exists():
-            print(f"错误: 找不到结果文件: {result_path}")
+            print(f"Error: Cannot find result file: {result_path}")
             return
         
         print(f"\n{'='*80}")
-        print("重新评测错误样本模式")
+        print("Re-evaluation of Error Samples Mode")
         print(f"{'='*80}")
         
-        # 执行重新评测
+        # Execute re-evaluation
         start_time = time.time()
         results = evaluator.retry_errors_sync(str(result_path))
         end_time = time.time()
         
-        # 保存更新后的结果（覆盖原文件）
-        # 先备份原文件
+        # Save updated results (overwrite original file)
+        # Backup original file first
         backup_path = result_path.parent / f"{result_path.stem}_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
         import shutil
         shutil.copy2(result_path, backup_path)
-        print(f"\n原文件已备份到: {backup_path}")
+        print(f"\nOriginal file backed up to: {backup_path}")
         
-        # 保存更新后的结果
+        # Save updated results
         evaluator.save_results(results, str(result_path))
         
-        # 打印统计信息
+        # Print statistics
         print(f"\n{'='*80}")
-        print("重新评测统计")
+        print("Re-evaluation Statistics")
         print(f"{'='*80}")
-        print(f"结果文件: {result_path.name}")
-        print(f"总样本数: {len(results)}")
-        print(f"耗时: {end_time - start_time:.2f} 秒")
+        print(f"Result file: {result_path.name}")
+        print(f"Total samples: {len(results)}")
+        print(f"Time elapsed: {end_time - start_time:.2f} seconds")
         print(f"{'='*80}")
         
     else:
-        # 正常评测模式
-        # 构建数据集路径
+        # Normal evaluation mode
+        # Build dataset path
         dataset_path = Path(args.processed_root) / f"{args.dataset}.jsonl"
         
         if not dataset_path.exists():
-            print(f"错误: 找不到数据集文件: {dataset_path}")
-            print(f"\n可用的数据集:")
+            print(f"Error: Cannot find dataset file: {dataset_path}")
+            print(f"\nAvailable datasets:")
             for jsonl_file in sorted(Path(args.processed_root).glob('*.jsonl')):
                 print(f"  - {jsonl_file.stem}")
             return
         
-        # 执行评测
+        # Execute evaluation
         start_time = time.time()
         results = evaluator.evaluate_dataset_sync(
             str(dataset_path),
@@ -559,21 +559,21 @@ def main():
         )
         end_time = time.time()
         
-        # 保存结果
+        # Save results
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         output_filename = f"{args.dataset}_{timestamp}.jsonl"
         output_path = Path(args.output_root) / output_filename
         
         evaluator.save_results(results, str(output_path))
         
-        # 打印统计信息
+        # Print statistics
         print(f"\n{'='*80}")
-        print("评测统计")
+        print("Evaluation Statistics")
         print(f"{'='*80}")
-        print(f"数据集: {args.dataset}")
-        print(f"样本数: {len(results)}")
-        print(f"耗时: {end_time - start_time:.2f} 秒")
-        print(f"平均每样本: {(end_time - start_time) / len(results):.2f} 秒")
+        print(f"Dataset: {args.dataset}")
+        print(f"Samples: {len(results)}")
+        print(f"Time elapsed: {end_time - start_time:.2f} seconds")
+        print(f"Average per sample: {(end_time - start_time) / len(results):.2f} seconds")
         print(f"{'='*80}")
 
 

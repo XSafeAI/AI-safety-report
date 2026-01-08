@@ -1,74 +1,74 @@
-# LLM统一调用库
+# LLM Unified Calling Library
 
-一个支持多种大语言模型的统一调用库，提供简洁一致的API接口。
+A unified calling library supporting multiple large language models, providing a simple and consistent API interface.
 
-## ✨ 核心特性
+## ✨ Core Features
 
-- 🚀 **统一接口**: 所有模型使用相同的`completion()`方法
-- 🔄 **自动路由**: 根据模型名称自动选择对应的provider
-- 🧠 **思考支持**: 统一的思考参数接口，自动处理不同模型的差异
-- 🔁 **自动重试**: 内置重试机制，提高稳定性
-- 💡 **懒加载**: Provider按需初始化，节省资源
-- 🎯 **简洁返回**: 默认返回解析后的文本，可选返回完整response
+- 🚀 **Unified Interface**: All models use the same `completion()` method
+- 🔄 **Auto Routing**: Automatically selects the corresponding provider based on model name
+- 🧠 **Thinking Support**: Unified thinking parameter interface, automatically handles differences between models
+- 🔁 **Auto Retry**: Built-in retry mechanism to improve stability
+- 💡 **Lazy Loading**: Providers initialized on demand, saving resources
+- 🎯 **Simple Return**: Returns parsed text by default, optionally returns full response
 
-## 📦 支持的模型
+## 📦 Supported Models
 
 ### 1. OpenAI (OpenAIProvider)
-- **模型**: gpt-5, gpt-5-mini, gpt-4.1, gpt-4o, gpt-4o-mini
-- **思考支持**: gpt-5系列支持reasoning_effort (low/medium/high)
-- **环境变量**: `OPENAI_API_KEY`
+- **Models**: gpt-5, gpt-5-mini, gpt-4.1, gpt-4o, gpt-4o-mini
+- **Thinking Support**: gpt-5 series supports reasoning_effort (low/medium/high)
+- **Environment Variable**: `OPENAI_API_KEY`
 
-### 2. Ark/火山引擎豆包 (ArkProvider)
-- **模型**: doubao-seed-1-6-251015, doubao-seed-1-6-vision-250815
-- **思考支持**: 
-  - doubao-seed-1-6-251015: 支持reasoning_effort分级
-  - doubao-seed-1-6-vision-250815: 支持extra_body思考开关
-- **环境变量**: `ARK_API_KEY`
-- **特点**: 返回思考内容
+### 2. Ark/Volcano Engine Doubao (ArkProvider)
+- **Models**: doubao-seed-1-6-251015, doubao-seed-1-6-vision-250815
+- **Thinking Support**: 
+  - doubao-seed-1-6-251015: Supports reasoning_effort levels
+  - doubao-seed-1-6-vision-250815: Supports extra_body thinking toggle
+- **Environment Variable**: `ARK_API_KEY`
+- **Feature**: Returns thinking content
 
-### 3. DashScope/通义千问 (DashScopeProvider)
-- **模型**: 
-  - 只支持思考: qwen3-vl-*-thinking系列
-  - 不支持思考: qwen3-vl-*-instruct系列
-  - 灵活模型: qwen2.5-vl/qwen2.5系列
-- **思考支持**: 
-  - 思考模型自动使用流式API
-  - 灵活模型可通过reasoning_effort控制
-- **环境变量**: `DASHSCOPE_API_KEY`
-- **特点**: 自动处理流式响应
+### 3. DashScope/Qwen (DashScopeProvider)
+- **Models**: 
+  - Thinking only: qwen3-vl-*-thinking series
+  - No thinking: qwen3-vl-*-instruct series
+  - Flexible models: qwen2.5-vl/qwen2.5 series
+- **Thinking Support**: 
+  - Thinking models automatically use streaming API
+  - Flexible models can be controlled via reasoning_effort
+- **Environment Variable**: `DASHSCOPE_API_KEY`
+- **Feature**: Automatically handles streaming responses
 
 ### 4. Gemini (GeminiProvider)
-- **模型**: 
-  - Gemini 3: gemini-3-pro-preview (使用thinkingLevel)
-  - Gemini 2.5: gemini-2.5-pro, gemini-2.5-flash (使用thinkingBudget)
-- **思考支持**: 
-  - Gemini 3: low/high级别
-  - Gemini 2.5 Pro: 无法完全停用 (最小值128)
-  - Gemini 2.5 Flash: 可停用 (设为0)
-- **环境变量**: `GEMINI_API_KEY`
-- **特点**: 返回思考总结
+- **Models**: 
+  - Gemini 3: gemini-3-pro-preview (uses thinkingLevel)
+  - Gemini 2.5: gemini-2.5-pro, gemini-2.5-flash (uses thinkingBudget)
+- **Thinking Support**: 
+  - Gemini 3: low/high levels
+  - Gemini 2.5 Pro: Cannot be completely disabled (minimum 128)
+  - Gemini 2.5 Flash: Can be disabled (set to 0)
+- **Environment Variable**: `GEMINI_API_KEY`
+- **Feature**: Returns thinking summary
 
 ### 5. DeepSeek (DeepSeekProvider)
-- **模型**: 
-  - deepseek-reasoner: 支持思考
-  - deepseek-chat: 不支持思考
-- **思考支持**: 
-  - deepseek-reasoner自动思考，无法控制
-  - reasoning_effort参数无效
-- **多模态支持**: ❌ 不支持图片和视频输入
-- **环境变量**: `DEEPSEEK_API_KEY`
-- **特点**: 思考行为由模型内置，仅支持文本输入
+- **Models**: 
+  - deepseek-reasoner: Supports thinking
+  - deepseek-chat: Does not support thinking
+- **Thinking Support**: 
+  - deepseek-reasoner automatically thinks, cannot be controlled
+  - reasoning_effort parameter has no effect
+- **Multimodal Support**: ❌ Does not support image and video input
+- **Environment Variable**: `DEEPSEEK_API_KEY`
+- **Feature**: Thinking behavior built into the model, only supports text input
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 安装依赖
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**系统依赖**：
-- 如果需要使用视频功能（压缩、抽帧等），需要安装 ffmpeg：
+**System Dependencies**:
+- If you need to use video features (compression, frame extraction, etc.), you need to install ffmpeg:
   ```bash
   # Ubuntu/Debian
   sudo apt-get install ffmpeg
@@ -77,10 +77,10 @@ pip install -r requirements.txt
   brew install ffmpeg
   
   # Windows
-  # 从 https://ffmpeg.org/download.html 下载并安装
+  # Download and install from https://ffmpeg.org/download.html
   ```
 
-### 设置环境变量
+### Set Environment Variables
 
 ```bash
 export OPENAI_API_KEY="your-key"
@@ -90,71 +90,71 @@ export GEMINI_API_KEY="your-key"
 export DEEPSEEK_API_KEY="your-key"
 ```
 
-### 基础使用
+### Basic Usage
 
 ```python
 from llm import completion
 
-# 默认返回文本（推荐）
+# Default returns text (recommended)
 content = completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "你好"}]
+    messages=[{"role": "user", "content": "Hello"}]
 )
-print(content)  # 直接打印文本
+print(content)  # Print text directly
 ```
 
-### 使用思考功能
+### Using Thinking Feature
 
 ```python
 # OpenAI
 content = completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "什么是量子计算？"}],
+    messages=[{"role": "user", "content": "What is quantum computing?"}],
     reasoning_effort="high"
 )
 
-# Ark（返回字典）
+# Ark (returns dictionary)
 result = completion(
     model="doubao-seed-1-6-251015",
-    messages=[{"role": "user", "content": "复杂问题"}],
+    messages=[{"role": "user", "content": "Complex question"}],
     reasoning_effort="medium"
 )
-print(result["content"])           # 答案
-print(result["thinking_content"])  # 思考过程
+print(result["content"])           # Answer
+print(result["thinking_content"])  # Thinking process
 
-# DeepSeek（自动思考）
+# DeepSeek (automatic thinking)
 result = completion(
     model="deepseek-reasoner",
-    messages=[{"role": "user", "content": "9.11和9.8哪个大？"}]
+    messages=[{"role": "user", "content": "Which is bigger, 9.11 or 9.8?"}]
 )
-print(result["content"])           # 答案
-print(result["thinking_content"])  # 思考过程
+print(result["content"])           # Answer
+print(result["thinking_content"])  # Thinking process
 ```
 
-### 返回完整Response
+### Return Full Response
 
 ```python
 response = completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "你好"}],
+    messages=[{"role": "user", "content": "Hello"}],
     return_full_response=True
 )
-print(response.usage)   # token用量
-print(response.model)   # 模型信息
+print(response.usage)   # Token usage
+print(response.model)   # Model information
 ```
 
-### 自动重试
+### Auto Retry
 
 ```python
 content = completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "你好"}],
-    retry_times=3,      # 重试3次
-    retry_delay=2.0     # 每次等待2秒
+    messages=[{"role": "user", "content": "Hello"}],
+    retry_times=3,      # Retry 3 times
+    retry_delay=2.0     # Wait 2 seconds each time
 )
 ```
 
-### 使用LLMClient
+### Using LLMClient
 
 ```python
 from llm import LLMClient
@@ -166,150 +166,150 @@ client = LLMClient(
 
 content = client.completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "你好"}]
+    messages=[{"role": "user", "content": "Hello"}]
 )
 ```
 
-## 📊 返回值规则
+## 📊 Return Value Rules
 
-| 场景 | return_full_response | 返回值类型 | 说明 |
-|------|---------------------|-----------|------|
-| 普通模型 | False (默认) | `str` | 直接返回文本内容 |
-| 有思考内容 | False (默认) | `dict` | `{"content": "...", "thinking_content": "..."}` |
-| 任意模型 | True | `Response对象` | 完整的API响应 |
+| Scenario | return_full_response | Return Type | Description |
+|----------|---------------------|-------------|-------------|
+| Normal model | False (default) | `str` | Directly returns text content |
+| Has thinking content | False (default) | `dict` | `{"content": "...", "thinking_content": "..."}` |
+| Any model | True | `Response object` | Full API response |
 
-## 🧠 Reasoning_Effort参数对比
+## 🧠 Reasoning_Effort Parameter Comparison
 
-| Provider | none/minimal | low | medium | high | 特殊说明 |
-|----------|-------------|-----|--------|------|---------|
-| OpenAI | 不传参数 | ✓ | ✓ | ✓ | gpt-4.1不支持 |
-| Ark | minimal | low | medium | high | 自动转换 |
-| DashScope | 停用/disabled | ✓ | ✓ | ✓ | 思考时用流式 |
-| Gemini 3 | low (无法停用) | ✓ | →low | ✓ | 不支持medium |
-| Gemini 2.5 Pro | 128 (最小值) | 2048 | 8192 | 32768 | 无法完全停用 |
-| Gemini 2.5 Flash | 0 (可停用) | 4096 | 12288 | 24576 | 可完全停用 |
-| DeepSeek | 无效 | 无效 | 无效 | 无效 | 模型自动决定 |
+| Provider | none/minimal | low | medium | high | Special Notes |
+|----------|-------------|-----|--------|------|---------------|
+| OpenAI | No parameter | ✓ | ✓ | ✓ | gpt-4.1 not supported |
+| Ark | minimal | low | medium | high | Auto conversion |
+| DashScope | Disabled/disabled | ✓ | ✓ | ✓ | Use streaming for thinking |
+| Gemini 3 | low (cannot disable) | ✓ | →low | ✓ | Does not support medium |
+| Gemini 2.5 Pro | 128 (minimum) | 2048 | 8192 | 32768 | Cannot completely disable |
+| Gemini 2.5 Flash | 0 (can disable) | 4096 | 12288 | 24576 | Can completely disable |
+| DeepSeek | Invalid | Invalid | Invalid | Invalid | Model decides automatically |
 
-## 🎯 最佳实践
+## 🎯 Best Practices
 
-### 1. 简单场景
+### 1. Simple Scenario
 ```python
-# 只需要文本内容
+# Only need text content
 content = completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "你好"}]
+    messages=[{"role": "user", "content": "Hello"}]
 )
 ```
 
-### 2. 处理思考内容
+### 2. Handle Thinking Content
 ```python
 result = completion(
     model="deepseek-reasoner",
-    messages=[{"role": "user", "content": "复杂问题"}]
+    messages=[{"role": "user", "content": "Complex question"}]
 )
 
 if isinstance(result, dict):
-    print(f"答案: {result['content']}")
-    print(f"思考: {result['thinking_content']}")
+    print(f"Answer: {result['content']}")
+    print(f"Thinking: {result['thinking_content']}")
 else:
-    print(f"答案: {result}")
+    print(f"Answer: {result}")
 ```
 
-### 3. 需要元数据
+### 3. Need Metadata
 ```python
 response = completion(
     model="gpt-5-mini",
-    messages=[{"role": "user", "content": "你好"}],
+    messages=[{"role": "user", "content": "Hello"}],
     return_full_response=True
 )
-print(f"用量: {response.usage.total_tokens} tokens")
+print(f"Usage: {response.usage.total_tokens} tokens")
 ```
 
-## 📖 详细文档
+## 📖 Detailed Documentation
 
-- [使用指南](./USAGE_GUIDE.md) - 详细的使用说明
-- [OpenAI示例](./openai_example.py)
-- [Ark示例](./ark_example.py)
-- [DashScope示例](./dashscope_example.py)
-- [Gemini示例](./gemini_example.py)
-- [DeepSeek示例](./deepseek_example.py)
+- [Usage Guide](./USAGE_GUIDE.md) - Detailed usage instructions
+- [OpenAI Example](./openai_example.py)
+- [Ark Example](./ark_example.py)
+- [DashScope Example](./dashscope_example.py)
+- [Gemini Example](./gemini_example.py)
+- [DeepSeek Example](./deepseek_example.py)
 
-## 🔧 技术架构
+## 🔧 Technical Architecture
 
-### 懒加载机制
-- Provider只在第一次使用时初始化
-- 节省资源，提高启动速度
+### Lazy Loading Mechanism
+- Providers are initialized only on first use
+- Saves resources, improves startup speed
 
-### 自动映射
-- 模型名称自动映射到对应的provider
-- 添加新provider无需修改路由逻辑
+### Auto Mapping
+- Model names automatically map to corresponding providers
+- Adding new providers doesn't require modifying routing logic
 
-### 错误重试
-- 内置重试机制，默认重试3次
-- 可配置重试次数和延迟时间
+### Error Retry
+- Built-in retry mechanism, default 3 retries
+- Configurable retry times and delay
 
-### 参数转换
-- 自动转换统一参数到不同provider的格式
-- 友好的警告提示
+### Parameter Conversion
+- Automatically converts unified parameters to different provider formats
+- Friendly warning messages
 
-## 🎨 多模态输入支持
+## 🎨 Multimodal Input Support
 
-各Provider对图片和视频输入的支持情况：
+Support for image and video input across providers:
 
-### 图片输入
+### Image Input
 
-| Provider | 支持情况 | 说明 |
-|---------|---------|------|
-| **OpenAI** | ✅ 支持 | 支持URL、Base64、本地路径（自动转Base64） |
-| **Gemini** | ✅ 支持 | 支持URL、Base64、本地路径（自动处理） |
-| **Ark** | ✅ 支持 | 支持URL、Base64、本地路径（自动转Base64） |
-| **DashScope** | ✅ 支持 | 支持URL、Base64、本地路径（自动转Base64） |
-| **DeepSeek** | ❌ 不支持 | 遇到图片会警告并跳过 |
+| Provider | Support | Description |
+|---------|---------|-------------|
+| **OpenAI** | ✅ Supported | Supports URL, Base64, local path (auto converts to Base64) |
+| **Gemini** | ✅ Supported | Supports URL, Base64, local path (auto handles) |
+| **Ark** | ✅ Supported | Supports URL, Base64, local path (auto converts to Base64) |
+| **DashScope** | ✅ Supported | Supports URL, Base64, local path (auto converts to Base64) |
+| **DeepSeek** | ❌ Not supported | Warns and skips images |
 
-### 视频输入
+### Video Input
 
-| Provider | 支持情况 | 处理方式 |
-|---------|---------|----------|
-| **OpenAI** | ✅ 支持 | 自动抽帧转多图输入（支持fps、max_frames参数） |
-| **Gemini** | ✅ 支持 | 原生支持，<20MB用inline，≥20MB自动上传 |
-| **Ark** | ✅ 支持 | 转Base64，限制50MB（超过自动压缩） |
-| **DashScope** | ✅ 支持 | 转Base64，限制10MB（超过自动压缩） |
-| **DeepSeek** | ❌ 不支持 | 遇到视频会警告并跳过 |
+| Provider | Support | Processing Method |
+|---------|---------|-------------------|
+| **OpenAI** | ✅ Supported | Auto frame extraction to multiple images (supports fps, max_frames parameters) |
+| **Gemini** | ✅ Supported | Native support, <20MB uses inline, ≥20MB auto uploads |
+| **Ark** | ✅ Supported | Converts to Base64, 50MB limit (auto compresses if exceeded) |
+| **DashScope** | ✅ Supported | Converts to Base64, 10MB limit (auto compresses if exceeded) |
+| **DeepSeek** | ❌ Not supported | Warns and skips videos |
 
-### 使用示例
+### Usage Examples
 
-#### 图片输入
+#### Image Input
 
 ```python
 from llm import completion
 
-# 所有支持的Provider都可以这样使用
+# All supported providers can use this way
 result = completion(
-    model="gpt-4o",  # 或其他支持的模型
+    model="gpt-4o",  # Or other supported models
     messages=[{
         "role": "user",
         "content": [
             {
                 "type": "image_url",
                 "image_url": {
-                    "url": "/path/to/image.jpg"  # 本地路径、URL或Base64
+                    "url": "/path/to/image.jpg"  # Local path, URL or Base64
                 }
             },
             {
                 "type": "text",
-                "text": "描述这张图片"
+                "text": "Describe this image"
             }
         ]
     }]
 )
 ```
 
-#### 视频输入（OpenAI）
+#### Video Input (OpenAI)
 
 ```python
 from llm import completion
 
-# OpenAI通过抽帧方式支持视频
+# OpenAI supports video through frame extraction
 result = completion(
     model="gpt-4o",
     messages=[{
@@ -318,24 +318,24 @@ result = completion(
             {
                 "type": "video_url",
                 "video": "/path/to/video.mp4",
-                "fps": 2.0,         # 可选：每秒抽取帧数
-                "max_frames": 40,   # 可选：最大帧数
+                "fps": 2.0,         # Optional: frames per second
+                "max_frames": 40,   # Optional: maximum frames
             },
             {
                 "type": "text",
-                "text": "描述视频内容"
+                "text": "Describe video content"
             }
         ]
     }]
 )
 ```
 
-#### 视频输入（Gemini）
+#### Video Input (Gemini)
 
 ```python
 from llm import completion
 
-# Gemini原生支持视频
+# Gemini natively supports video
 result = completion(
     model="gemini-2.5-flash",
     messages=[{
@@ -344,24 +344,24 @@ result = completion(
             {
                 "type": "video_url",
                 "video_url": {
-                    "url": "/path/to/video.mp4"  # 自动处理大小文件
+                    "url": "/path/to/video.mp4"  # Auto handles large files
                 }
             },
             {
                 "type": "text",
-                "text": "分析视频内容"
+                "text": "Analyze video content"
             }
         ]
     }]
 )
 ```
 
-#### 视频输入（Ark/DashScope）
+#### Video Input (Ark/DashScope)
 
 ```python
 from llm import completion
 
-# Ark支持视频（限制50MB，超过自动压缩）
+# Ark supports video (50MB limit, auto compresses if exceeded)
 result = completion(
     model="doubao-seed-1-6-vision-250815",
     messages=[{
@@ -370,18 +370,18 @@ result = completion(
             {
                 "type": "video_url",
                 "video_url": {
-                    "url": "/path/to/video.mp4"  # 本地路径或URL，自动转Base64
+                    "url": "/path/to/video.mp4"  # Local path or URL, auto converts to Base64
                 }
             },
             {
                 "type": "text",
-                "text": "描述视频内容"
+                "text": "Describe video content"
             }
         ]
     }]
 )
 
-# DashScope支持视频（限制10MB，超过自动压缩）
+# DashScope supports video (10MB limit, auto compresses if exceeded)
 result = completion(
     model="qwen3-vl-8b-instruct",
     messages=[{
@@ -390,38 +390,37 @@ result = completion(
             {
                 "type": "video_url",
                 "video_url": {
-                    "url": "/path/to/video.mp4"  # 本地路径或URL，自动转Base64
+                    "url": "/path/to/video.mp4"  # Local path or URL, auto converts to Base64
                 }
             },
             {
                 "type": "text",
-                "text": "总结视频"
+                "text": "Summarize video"
             }
         ]
     }]
 )
 ```
 
-**注意事项**：
-- Ark 视频大小限制 50MB，超过会自动压缩并发出警告
-- DashScope 视频大小限制 10MB，超过会自动压缩并发出警告
-- Base64格式的视频不做处理，直接传递
-- 本地路径和URL会自动转换为Base64格式
+**Notes**:
+- Ark video size limit 50MB, auto compresses and warns if exceeded
+- DashScope video size limit 10MB, auto compresses and warns if exceeded
+- Base64 format videos are passed directly without processing
+- Local paths and URLs are automatically converted to Base64 format
 
-## 📝 添加新Provider
+## 📝 Adding New Provider
 
-1. 继承`BaseLLMProvider`
-2. 实现`completion()`方法
-3. 定义`SUPPORTED_MODELS`列表
-4. 在`client.py`中注册
+1. Inherit `BaseLLMProvider`
+2. Implement `completion()` method
+3. Define `SUPPORTED_MODELS` list
+4. Register in `client.py`
 
-详见各provider的实现代码。
+See the implementation code of each provider for details.
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交Issue和Pull Request！
+Issues and Pull Requests are welcome!
 
 ## 📄 License
 
 MIT
-

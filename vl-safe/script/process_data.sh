@@ -1,33 +1,33 @@
 #!/bin/bash
 
-# 快速开始脚本 - 处理所有数据集
+# Quick start script - Process all datasets
 
 echo "=========================================="
-echo "  数据集适配器 - 快速开始"
+echo "  Dataset Adapter - Quick Start"
 echo "=========================================="
 echo ""
 
-# 检查Python
+# Check Python
 if ! command -v python3 &> /dev/null; then
-    echo "错误: 未找到 Python3"
+    echo "Error: Python3 not found"
     exit 1
 fi
 
-echo "Python版本:"
+echo "Python version:"
 python3 --version
 echo ""
 
-# 检查依赖
-echo "检查依赖包..."
+# Check dependencies
+echo "Checking dependencies..."
 pip install -q pandas pyarrow
-echo "✓ 依赖包已安装"
+echo "✓ Dependencies installed"
 echo ""
 
-# 切换到脚本所在目录
+# Change to script directory
 cd "$(dirname "$0")"
 
-# 显示数据集列表
-echo "可用的数据集:"
+# Show dataset list
+echo "Available datasets:"
 echo "  1. VLJailbreakBench"
 echo "  2. JailbreakV-28K"
 echo "  3. MIS (Test)"
@@ -38,36 +38,35 @@ echo "  7. Argus"
 echo "  8. UNICORN"
 echo ""
 
-# 询问用户
-read -p "是否处理所有数据集? (y/n): " choice
+# Ask user
+read -p "Process all datasets? (y/n): " choice
 
 if [[ $choice == "y" || $choice == "Y" ]]; then
     echo ""
-    echo "开始处理所有数据集..."
+    echo "Starting to process all datasets..."
     python3 process_datasets.py
 else
     echo ""
-    echo "请输入要处理的数据集名称 (例如: vljailbreakbench):"
+    echo "Please enter the dataset name to process (e.g., vljailbreakbench):"
     read dataset_name
     
     if [ -z "$dataset_name" ]; then
-        echo "错误: 数据集名称不能为空"
+        echo "Error: Dataset name cannot be empty"
         exit 1
     fi
     
     echo ""
-    echo "开始处理数据集: $dataset_name"
+    echo "Starting to process dataset: $dataset_name"
     python3 process_datasets.py --dataset "$dataset_name"
 fi
 
 echo ""
 echo "=========================================="
-echo "  处理完成!"
+echo "  Processing completed!"
 echo "=========================================="
 echo ""
-echo "输出目录: /data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"
+echo "Output directory: /data/data-pool/dingyifan/GeminiEvaluation/workspace/data/processed"
 echo ""
-echo "要测试输出，请运行:"
+echo "To test the output, run:"
 echo "  python3 test_adapters.py"
 echo ""
-
