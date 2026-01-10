@@ -1,9 +1,10 @@
 # L-Safe
 
-**l-safe** is a unified framework for evaluating the safety of large language models (LLMs) and multimodal models across multiple dimensions, including adversarial robustness, benchmark alignment, regulatory compliance, and multilingual safety.
+**L-Safe** is a unified framework for evaluating the safety of large language models (LLMs) and multimodal models across multiple dimensions, including adversarial robustness, benchmark alignment, regulatory compliance, and multilingual safety.
 
 
 ## Repository Structure
+```text
 l-safe/
 ├── adversarial/
 │   └── README.md        # Adversarial (jailbreak) evaluation methods
