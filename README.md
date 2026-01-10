@@ -12,8 +12,6 @@
   <p>
     <a href="https://arxiv.org/abs/2510.14975"><img src="https://img.shields.io/badge/arXiv-2601.xxxxx-b31b1b.svg" alt="arXiv"/></a>
     <a href="https://xsafeai.github.io/AI-safety-report/"><img src="https://img.shields.io/badge/Project-Page-blue.svg" alt="Project Page"/></a>
-    <a href="https://huggingface.co/AI-Safety-Report"><img src="https://img.shields.io/badge/Hugging-Face-yellow.svg" alt="HuggingFace"/></a>
-    <!-- <a href="https://huggingface.co/datasets/WithAnyone/MultiID-Bench"><img src="https://img.shields.io/badge/MultiID-Bench-Green.svg" alt="MultiID-Bench"/></a> -->
 
   </p>
 
