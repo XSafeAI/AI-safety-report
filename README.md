@@ -1,16 +1,18 @@
 <div align="center">
   <h2>A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5</h2>
   <p>
-    Xingjun Ma<sup>1,2</sup>, Yixu Wang<sup>1</sup>, Hengyuan Xu<sup>1</sup>, Yutao Wu<sup>3</sup>, Yunhan Zhao<sup>1</sup>, Zilong Wang<sup>1</sup>, Jiabin Hua<sup>1,4</sup>, Ming Wen<sup>1,2</sup>, Jianan Liu<sup>2</sup>, Yunhao Chen<sup>1</sup>, Yifeng Gao<sup>1</sup>, Xin Wang<sup>1</sup>, Yifan Ding<sup>1,4</sup>, Yingshui Tan<sup>4</sup>, Ranjie Duan<sup>4</sup>, Hui Xue<sup>4</sup>, Wei Cheng, Jingjing Chen<sup>1</sup>, Yu-Gang Jiang<sup>1</sup>
+    Xingjun Ma<sup>1,2</sup>, Yixu Wang<sup>1</sup>, Hengyuan Xu<sup>1</sup>, Yutao Wu<sup>3</sup>, Yunhan Zhao<sup>1</sup>, Zilong Wang<sup>1</sup>, Jiabin Hua<sup>1</sup>, <br> Ming Wen<sup>1,2</sup>,Jianan Liu<sup>1,2</sup>, Ranjie Duan, Yingshui Tan, Hui Xue,  Wei Cheng,
+    Yunhao Chen<sup>1</sup>, <br> Yifeng Gao<sup>1</sup>,  Xin Wang<sup>1</sup>, Yifan Ding<sup>1</sup>,  Jingjing Chen<sup>1</sup>, Zuxuan Wu<sup>1</sup>, Bo Li<sup>4</sup>, Yu-Gang Jiang<sup>1</sup>
   </p>
+
   <p>
-    <sup>1</sup>Fudan University, <sup>2</sup>Shanghai Innovation Institute, <br>
-    <sup>3</sup>Deakin University, <sup>4</sup>Alibaba Group
+    <sup>1</sup>Fudan University, <sup>2</sup>Shanghai Innovation Institute,
+    <sup>3</sup>Deakin University, <sup>4</sup>UIUC
   </p>
   <p>
     <a href="https://arxiv.org/abs/2510.14975"><img src="https://img.shields.io/badge/arXiv-2601.xxxxx-b31b1b.svg" alt="arXiv"/></a>
-    <a href="https://xingjunm.github.io/AI-safety-report/"><img src="https://img.shields.io/badge/Project-Page-blue.svg" alt="Project Page"/></a>
-    <a href="https://huggingface.co/WithAnyone/WithAnyone"><img src="https://img.shields.io/badge/HuggingFace-Model-yellow.svg" alt="HuggingFace"/></a>
+    <a href="https://xsafeai.github.io/AI-safety-report/"><img src="https://img.shields.io/badge/Project-Page-blue.svg" alt="Project Page"/></a>
+    <a href="https://huggingface.co/AI-Safety-Report"><img src="https://img.shields.io/badge/Hugging-Face-yellow.svg" alt="HuggingFace"/></a>
     <!-- <a href="https://huggingface.co/datasets/WithAnyone/MultiID-Bench"><img src="https://img.shields.io/badge/MultiID-Bench-Green.svg" alt="MultiID-Bench"/></a> -->
 
   </p>
@@ -64,9 +66,17 @@ AI-safety-report/
 │   ├── adversarial/
 │   │   └── README.md
 │   ├── benchmark/
-│   │   └── README.md
+│   │   ├── data/
+│   │   ├── src/
+│   │   ├── main.py
+│   │   ├── README.md
+│   │   └── requirements.txt
 │   ├── compliance/
-│   │   └── README.md
+│   │   ├── data/
+│   │   ├── src/
+│   │   ├── main.py
+│   │   ├── README.md
+│   │   └── requirements.txt
 │   └── multilingual/
 │       ├── README.md
 │       ├── test_ML-Bench.py
@@ -93,6 +103,13 @@ AI-safety-report/
 │   │   ├── eavl.py
 │   │   └── safety_toxic.jsonl
 │   └── compliance/
+│       ├── config/
+│       ├── scripts/
+│       ├── utils/
+│       ├── client.py
+│       ├── evaluate.py
+│       ├── generate.py
+│       ├── metric.py
 │       └── README.md
 └── vl-safe/
     ├── README.md
