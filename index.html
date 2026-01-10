@@ -15,8 +15,18 @@
 
 <!-- Minimal inline styles to make it look good without local CSS -->
 <style>
-  /* Dark Mode Variables */
-  :root{--bg:#121212;--text:#e0e0e0;--muted:#a0a0a0;--link:#82b1ff;--border:#333333}
+  /* Light Mode Variables adapted to user request */
+  :root {
+      --bg: #f0eee6;        /* Main Background */
+      --sec-bg: #e3dacc;    /* Slightly darker (Carousel/Blocks) */
+      --accent-1: #bcd1ca;  /* Contrast 1 */
+      --accent-2: #cbcadb;  /* Contrast 2 */
+      --text: #2c2c2c;      /* Dark text */
+      --muted: #555555;     /* Muted text */
+      --link: #209cee;      /* Link color */
+      --border: #d1c8b8;    /* Border color */
+  }
+
   *{box-sizing:border-box}
   html, body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans","Google Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
   
@@ -27,9 +37,9 @@
   .publication-authors{color: var(--muted);}
   
   /* Carousel styles */
-  .carousel-teaser-container{overflow:hidden;width:100%;padding:20px 0; background: #1e1e1e; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);}
+  .carousel-teaser-container{overflow:hidden;width:100%;padding:20px 0; background: var(--sec-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);}
   .carousel-teaser{display:flex;gap:20px;will-change:transform}
-  .teaser-img{height:350px;width:auto;border-radius:4px;box-shadow: 0 4px 8px rgba(0,0,0,0.3); background: #2d2d2d;}
+  .teaser-img{height:350px;width:auto;border-radius:4px;box-shadow: 0 4px 8px rgba(0,0,0,0.1); background: #ffffff;}
 
   /* Leaderboard Border Highlights */
   #carousel .teaser-img { border: 5px solid transparent; }
@@ -42,19 +52,20 @@
   
   /* Custom Toggle Button Styles */
   .tabs.is-toggle li a {
-      background-color: #1e1e1e; /* Dark color for unselected */
-      color: #a0a0a0;
-      border-color: #333333;
+      background-color: var(--sec-bg); /* Darker beige for unselected */
+      color: var(--muted);
+      border-color: var(--border);
       transition: background-color 0.3s, color 0.3s;
   }
   .tabs.is-toggle li.is-active a {
-      background-color: #3273dc; /* Accent color for selected */
-      color: #ffffff !important;
-      border-color: #3273dc;
+      background-color: var(--accent-1); /* Green/Blue Accent for selected */
+      color: #000000 !important;
+      font-weight: 600;
+      border-color: var(--border);
   }
   .tabs.is-toggle li a:hover {
-      background-color: #2d2d2d;
-      color: #e0e0e0;
+      background-color: var(--accent-2); /* Purple/Grey accent on hover */
+      color: #000000;
   }
 
   /* Content Styles */
@@ -63,13 +74,13 @@
   .tab-content.is-active { display: block; }
   
   .figure-caption { text-align: center; font-weight: bold; margin-top: 10px; margin-bottom: 30px; color: var(--muted); }
-  .summary-img { width: 100%; max-width: 900px; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: block; margin: 10px auto; background: white; }
-  .example-img { width: 100%; max-width: 1100px; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: block; margin: 10px auto; background: white; }
+  .summary-img { width: 100%; max-width: 900px; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: block; margin: 10px auto; background: white; }
+  .example-img { width: 100%; max-width: 1100px; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: block; margin: 10px auto; background: white; }
 
   .section-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); text-align: center;}
   .section-desc { max-width: 800px; margin: 0 auto 30px; text-align: center; color: var(--muted); line-height: 1.6; font-size: 1.1rem; }
   
-  .subsection-header { font-size: 1.4rem; font-weight: 600; margin-top: 40px; margin-bottom: 15px; text-align: center; color: var(--text); border-bottom: 2px solid #333; padding-bottom: 10px; display: inline-block; }
+  .subsection-header { font-size: 1.4rem; font-weight: 600; margin-top: 40px; margin-bottom: 15px; text-align: center; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 10px; display: inline-block; }
   .center-wrapper { text-align: center; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -80,19 +91,18 @@
     .publication-title span { font-size: 1.8rem !important; }
   }
 
-  /* Modal/Lightbox Styles - Fix for "blocked by overflow" */
-  /* 修改：使用 fixed 定位和极高的 z-index，确保弹窗位于所有内容（包括走马灯容器）之上 */
+  /* Modal/Lightbox Styles */
   .modal { 
     display: none; 
     align-items: center; 
     justify-content: center; 
-    position: fixed; /* 关键：固定定位脱离文档流 */
+    position: fixed; 
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    background-color: rgba(0,0,0,0.9); /* 深色背景遮罩 */
-    z-index: 9999; /* 关键：置于顶层 */
+    background-color: rgba(0,0,0,0.8); 
+    z-index: 9999; 
   }
   .modal.is-active { display: flex; }
   
@@ -116,14 +126,23 @@
     object-fit: contain; 
   }
 
-  /* 修改：走马灯里的图片只做轻微缩放，避免被 overflow:hidden 裁切 */
   .teaser-img { 
     cursor: zoom-in; 
     transition: transform 0.2s, filter 0.2s; 
   }
   .teaser-img:hover { 
-    transform: scale(1.02); /* 仅轻微放大，提示可点击 */
-    filter: brightness(1.1); /* 稍微变亮 */
+    transform: scale(1.02); 
+    filter: brightness(1.05); 
+  }
+
+  /* Buttons */
+  .button.is-dark {
+      background-color: var(--text);
+      color: #fff;
+      border-color: transparent;
+  }
+  .button.is-dark:hover {
+      background-color: #000;
   }
 </style>
 </head>
@@ -134,13 +153,14 @@
 <div class="column has-text-centered">
   <br><br>
   <h1 class="title is-1 publication-title">
-    <!-- 替换了原本的文字标题为图片，并设置了宽度 -->
-    <img src="static/title.png" alt="A Safety Report" style="width: 300px; max-width: 90%; height: 50px; margin-bottom: -6px;"><br>
-    <span style="font-size:32px;color:#d0d0d0;font-weight:bold;font-family: 'Google Sans', sans-serif;">ON GPT-5.2, GEMINI 3 PRO, QWEN3-VL,</span><br>
-    <span style="font-size:32px;color:#d0d0d0;font-weight:bold;font-family: 'Google Sans', sans-serif;">DOUBAO 1.6, NANO BANANA PRO, AND SEEDREAM 4.5</span>
+    <!-- Updated Title Content -->
+    <span style="font-size:66px;color:#0dcedf;font-weight:bold;font-family: Marker Felt, regular;background:linear-gradient(to right,#54d2d2,#ff6150);-webkit-background-clip:text;color:transparent"><strong>A Safety Report</strong></span><br>
+    
+    <span style="font-size:32px;color:#4a4a4a;font-weight:bold;font-family: 'Google Sans', sans-serif;">ON GPT-5.2, GEMINI 3 PRO, QWEN3-VL,</span><br>
+    <span style="font-size:32px;color:#4a4a4a;font-weight:bold;font-family: 'Google Sans', sans-serif;">DOUBAO 1.6, NANO BANANA PRO, AND SEEDREAM 4.5</span>
   </h1>
   <!-- Authors -->
-  <div class="publication-authors" style="max-width: 1000px; margin: 20px auto 15px; font-size: 1.2rem; color: #d0d0d0; line-height: 1.6;">
+  <div class="publication-authors" style="max-width: 1000px; margin: 20px auto 15px; font-size: 1.2rem; color: #555555; line-height: 1.6;">
     <span class="author-block">Xingjun Ma<sup>1,2</sup></span>&nbsp;&nbsp;
     <span class="author-block">Yixu Wang<sup>1</sup></span>&nbsp;&nbsp;
     <span class="author-block">Hengyuan Xu<sup>1</sup></span>&nbsp;&nbsp;
@@ -176,16 +196,6 @@
 <!------------------------- Badges ------------------------------------->
  <div class="column has-text-centered">
  <div class="publication-links">
- <!-- PDF Link. -->
- <!-- <span class="link-block">
- <a href="https://huggingface.co/papers/2510.14975"
- class="external-link button is-normal is-rounded is-dark">
- <span class="icon">
- <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 578 578" data-fa-i2svg=""><path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg>
- </span>
- <span>Paper</span>
- </a>
- </span> -->
  <!-- Arxiv Link. -->
  <span class="link-block">
  <a href="https://arxiv.org/abs/2510.14975"
@@ -254,29 +264,29 @@
     <div class="carousel-teaser-container" id="container-spec">
       <div class="carousel-teaser" id="carousel-spec">
         <!-- Loop 1 -->
-        <img src="static/spec_1_dark.png" alt="Spec 1" class="teaser-img">
-        <img src="static/spec_2_dark.png" alt="Spec 2" class="teaser-img">
-        <img src="static/spec_3_dark.png" alt="Spec 3" class="teaser-img">
-        <img src="static/spec_4_dark.png" alt="Spec 4" class="teaser-img">
-        <img src="static/spec_5_dark.png" alt="Spec 5" class="teaser-img">
-        <img src="static/spec_6_dark.png" alt="Spec 6" class="teaser-img">
-        <img src="static/spec_7_dark.png" alt="Spec 7" class="teaser-img">
+        <img src="static/spec_1.png" alt="Spec 1" class="teaser-img">
+        <img src="static/spec_2.png" alt="Spec 2" class="teaser-img">
+        <img src="static/spec_3.png" alt="Spec 3" class="teaser-img">
+        <img src="static/spec_4.png" alt="Spec 4" class="teaser-img">
+        <img src="static/spec_5.png" alt="Spec 5" class="teaser-img">
+        <img src="static/spec_6.png" alt="Spec 6" class="teaser-img">
+        <img src="static/spec_7.png" alt="Spec 7" class="teaser-img">
         <!-- Loop 2 (Duplicate for infinite scroll) -->
-        <img src="static/spec_1_dark.png" alt="Spec 1" class="teaser-img">
-        <img src="static/spec_2_dark.png" alt="Spec 2" class="teaser-img">
-        <img src="static/spec_3_dark.png" alt="Spec 3" class="teaser-img">
-        <img src="static/spec_4_dark.png" alt="Spec 4" class="teaser-img">
-        <img src="static/spec_5_dark.png" alt="Spec 5" class="teaser-img">
-        <img src="static/spec_6_dark.png" alt="Spec 6" class="teaser-img">
-        <img src="static/spec_7_dark.png" alt="Spec 7" class="teaser-img">
+        <img src="static/spec_1.png" alt="Spec 1" class="teaser-img">
+        <img src="static/spec_2.png" alt="Spec 2" class="teaser-img">
+        <img src="static/spec_3.png" alt="Spec 3" class="teaser-img">
+        <img src="static/spec_4.png" alt="Spec 4" class="teaser-img">
+        <img src="static/spec_5.png" alt="Spec 5" class="teaser-img">
+        <img src="static/spec_6.png" alt="Spec 6" class="teaser-img">
+        <img src="static/spec_7.png" alt="Spec 7" class="teaser-img">
         <!-- Loop 3 (Duplicate for infinite scroll) -->
-        <img src="static/spec_1_dark.png" alt="Spec 1" class="teaser-img">
-        <img src="static/spec_2_dark.png" alt="Spec 2" class="teaser-img">
-        <img src="static/spec_3_dark.png" alt="Spec 3" class="teaser-img">
-        <img src="static/spec_4_dark.png" alt="Spec 4" class="teaser-img">
-        <img src="static/spec_5_dark.png" alt="Spec 5" class="teaser-img">
-        <img src="static/spec_6_dark.png" alt="Spec 6" class="teaser-img">
-        <img src="static/spec_7_dark.png" alt="Spec 7" class="teaser-img">
+        <img src="static/spec_1.png" alt="Spec 1" class="teaser-img">
+        <img src="static/spec_2.png" alt="Spec 2" class="teaser-img">
+        <img src="static/spec_3.png" alt="Spec 3" class="teaser-img">
+        <img src="static/spec_4.png" alt="Spec 4" class="teaser-img">
+        <img src="static/spec_5.png" alt="Spec 5" class="teaser-img">
+        <img src="static/spec_6.png" alt="Spec 6" class="teaser-img">
+        <img src="static/spec_7.png" alt="Spec 7" class="teaser-img">
       </div>
     </div>
   </div>
@@ -288,17 +298,17 @@
     <div class="carousel-teaser-container" id="container">
       <div class="carousel-teaser" id="carousel">
         <!-- Loop 1 -->
-        <img src="static/leaderboard_1_dark.png" alt="Leaderboard 1" class="teaser-img">
-        <img src="static/leaderboard_2_dark.png" alt="Leaderboard 2" class="teaser-img">
-        <img src="static/leaderboard_3_dark.png" alt="Leaderboard 3" class="teaser-img">
+        <img src="static/leaderboard_1.png" alt="Leaderboard 1" class="teaser-img">
+        <img src="static/leaderboard_2.png" alt="Leaderboard 2" class="teaser-img">
+        <img src="static/leaderboard_3.png" alt="Leaderboard 3" class="teaser-img">
         <!-- Loop 2 (Duplicate for infinite scroll effect) -->
-        <img src="static/leaderboard_1_dark.png" alt="Leaderboard 1" class="teaser-img">
-        <img src="static/leaderboard_2_dark.png" alt="Leaderboard 2" class="teaser-img">
-        <img src="static/leaderboard_3_dark.png" alt="Leaderboard 3" class="teaser-img">
+        <img src="static/leaderboard_1.png" alt="Leaderboard 1" class="teaser-img">
+        <img src="static/leaderboard_2.png" alt="Leaderboard 2" class="teaser-img">
+        <img src="static/leaderboard_3.png" alt="Leaderboard 3" class="teaser-img">
         <!-- Loop 3 (Extra buffer) -->
-        <img src="static/leaderboard_1_dark.png" alt="Leaderboard 1" class="teaser-img">
-        <img src="static/leaderboard_2_dark.png" alt="Leaderboard 2" class="teaser-img">
-        <img src="static/leaderboard_3_dark.png" alt="Leaderboard 3" class="teaser-img">
+        <img src="static/leaderboard_1.png" alt="Leaderboard 1" class="teaser-img">
+        <img src="static/leaderboard_2.png" alt="Leaderboard 2" class="teaser-img">
+        <img src="static/leaderboard_3.png" alt="Leaderboard 3" class="teaser-img">
       </div>
     </div>
   </div>
@@ -356,13 +366,13 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Quantitative Results</div>
-      <img src="static/fig3_llm_bench_dark.png" alt="LLM Benchmark Results" class="summary-img">
+      <img src="static/fig3_llm_bench.png" alt="LLM Benchmark Results" class="summary-img">
       <div class="figure-caption">Figure 3: Safe rate of five models across five benchmarks.</div>
     </div>
 
     <div class="center-wrapper">
       <div class="subsection-header">Case Studies</div>
-      <img src="static/fig4_exp_dark.png" alt="LLM Benchmark Examples" class="example-img">
+      <img src="static/fig4_exp.png" alt="LLM Benchmark Examples" class="example-img">
       <div class="figure-caption">Figure 4: Examples of model responses to standard safety benchmark prompts.</div>
     </div>
   </div>
@@ -376,13 +386,13 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Attack Success Rates</div>
-      <img src="static/fig5_llm_adv_dark.png" alt="LLM Adversarial Results" class="summary-img">
+      <img src="static/fig5_llm_adv.png" alt="LLM Adversarial Results" class="summary-img">
       <div class="figure-caption">Figure 5: Adversarial evaluation results across five models.</div>
     </div>
 
     <div class="center-wrapper">
       <div class="subsection-header">Adversarial Examples</div>
-      <img src="static/adv_bad_examples_dark.png" alt="Adversarial Bad Examples" class="example-img">
+      <img src="static/adv_bad_examples.png" alt="Adversarial Bad Examples" class="example-img">
       <div class="figure-caption">Figure 6: Qualitative examples of successful jailbreak attempts.</div>
     </div>
   </div>
@@ -396,13 +406,13 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Benchmark Performance</div>
-      <img src="static/fig11_VLM_bench_dark.png" alt="VLM Benchmark Results" class="summary-img">
+      <img src="static/fig11_VLM_bench.png" alt="VLM Benchmark Results" class="summary-img">
       <div class="figure-caption">Figure 11: Safety scores for Vision-Language Models on standard benchmarks.</div>
     </div>
 
     <div class="center-wrapper">
       <div class="subsection-header">Visual Prompt Examples</div>
-      <img src="static/fig12_VLM_Bench_example_dark.png" alt="VLM Benchmark Examples" class="example-img">
+      <img src="static/fig12_VLM_Bench_example.png" alt="VLM Benchmark Examples" class="example-img">
       <div class="figure-caption">Figure 12: Examples of VLM responses to unsafe visual and textual inputs.</div>
     </div>
   </div>
@@ -416,13 +426,13 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Adversarial Robustness</div>
-      <img src="static/fig13_VLM_adv_dark.png" alt="VLM Adversarial Results" class="summary-img">
+      <img src="static/fig13_VLM_adv.png" alt="VLM Adversarial Results" class="summary-img">
       <div class="figure-caption">Figure 13: Safe rates under multimodal adversarial evaluation.</div>
     </div>
 
     <div class="center-wrapper">
       <div class="subsection-header">Visual Jailbreaks</div>
-      <img src="static/fig14_VLM_adv_example_dark.png" alt="VLM Adversarial Examples" class="example-img">
+      <img src="static/fig14_VLM_adv_example.png" alt="VLM Adversarial Examples" class="example-img">
       <div class="figure-caption">Figure 14: Demonstration of visual jailbreaks triggering unsafe content.</div>
     </div>
   </div>
@@ -436,7 +446,7 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Safety Metrics</div>
-      <img src="static/fig15_t2i_bench_dark.png" alt="T2I Benchmark Results" class="summary-img">
+      <img src="static/fig15_t2i_bench.png" alt="T2I Benchmark Results" class="summary-img">
       <div class="figure-caption">Figure 15: Evaluation results on the T2ISafety benchmark.</div>
     </div>
 
@@ -456,7 +466,7 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Bypass Success Rates</div>
-      <img src="static/fig17_t2i_adv_dark.png" alt="T2I Adversarial Results" class="summary-img">
+      <img src="static/fig17_t2i_adv.png" alt="T2I Adversarial Results" class="summary-img">
       <div class="figure-caption">Figure 17: Adversarial evaluation results.</div>
     </div>
 
@@ -476,7 +486,7 @@
     
     <div class="center-wrapper">
       <div class="subsection-header">Compliance Scores</div>
-      <img src="static/fig19_t2i_regulation_dark.png" alt="T2I Regulation Results" class="summary-img">
+      <img src="static/fig19_t2i_regulation.png" alt="T2I Regulation Results" class="summary-img">
       <div class="figure-caption">Figure 19: Quantitative results on the regulatory compliance benchmark.</div>
     </div>
 
@@ -493,7 +503,7 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content" style="max-width: 800px; margin: 0 auto; margin-bottom: 20px;">
     <h2 class="title is-3 has-text-centered" style="color: var(--text);">Cite this report:</h2>
-    <pre style="background-color: #1e1e1e; color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 15px;"><code>@article{xsafe2026safety,
+    <pre style="background-color: var(--sec-bg); color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 15px;"><code>@article{xsafe2026safety,
   title={A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Nano Banana Pro, and Seedream 4.5},
   author={XSafe AI Team},
   journal={Technical Report},
