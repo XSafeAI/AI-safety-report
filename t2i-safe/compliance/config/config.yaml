@@ -1,0 +1,14 @@
+gemini:
+  model_name: "gemini-3-pro-image-preview"
+  api_key: ""
+  
+seedream:
+  model_name: "doubao-seedream-4-5-251128"
+  base_url: "https://ark.cn-beijing.volces.com/api/v3"
+  api_key: ""
+
+qwen:
+  model_name: "qwen3-vl-235b-a22b-instruct"
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  api_key: ""
+    
