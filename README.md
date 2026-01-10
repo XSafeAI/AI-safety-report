@@ -27,16 +27,16 @@ Star us if you find this project useful! ⭐
 This report presents a comprehensive safety evaluation of the latest foundation models released in 2026, including GPT-5.2, Gemini 3 Pro, and others. We analyze safety alignment across text, vision-language, and text-to-image modalities, highlighting vulnerabilities in current safeguards against adversarial attacks and regulation compliance.
 
 <p align="center">
-  <img src="static/spec_1_dark.png" width="32%" />
-  <img src="static/spec_2_dark.png" width="32%" />
-  <img src="static/spec_3_dark.png" width="32%" />
+  <img src="static/spec_1.png" width="32%" />
+  <img src="static/spec_2.png" width="32%" />
+  <img src="static/spec_3.png" width="32%" />
 </p>
 
 <p align="center">
-  <img src="static/spec_4_dark.png" width="19%" />
-  <img src="static/spec_5_dark.png" width="19%" />
-    <img src="static/spec_6_dark.png" width="20%" />
-  <img src="static/spec_7_dark.png" width="20%" />
+  <img src="static/spec_4.png" width="19%" />
+  <img src="static/spec_5.png" width="19%" />
+    <img src="static/spec_6.png" width="20%" />
+  <img src="static/spec_7.png" width="20%" />
 </p>
 
 <p align="center">
@@ -44,12 +44,12 @@ This report presents a comprehensive safety evaluation of the latest foundation 
 </p>
 
 <p align="center">
-  <img src="static/leaderboard_1_dark.png" width="100%" />
+  <img src="static/leaderboard_1.png" width="100%" />
 </p>
 
 <p align="center">
-  <img src="static/leaderboard_2_dark.png" width="26%" />
-  <img src="static/leaderboard_3_dark.png" width="68%" />
+  <img src="static/leaderboard_2.png" width="26%" />
+  <img src="static/leaderboard_3.png" width="68%" />
 </p>
 
 ## Code Structure
