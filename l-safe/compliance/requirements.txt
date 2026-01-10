@@ -1,0 +1,4 @@
+openai
+tqdm
+python-dotenv
+argparse
