@@ -1,8 +1,8 @@
 <div align="center">
   <h2>A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5</h2>
   <p>
-    Xingjun Ma<sup>1,2</sup>, Yixu Wang<sup>1</sup>, Hengyuan Xu<sup>1</sup>, Yutao Wu<sup>3</sup>, Yunhan Zhao<sup>1</sup>, Zilong Wang<sup>1</sup>, Jiabin Hua<sup>1</sup>, <br> Ming Wen<sup>1,2</sup>,Jianan Liu<sup>1,2</sup>, Ranjie Duan, Yingshui Tan, Hui Xue,  Wei Cheng,
-    Yunhao Chen<sup>1</sup>, <br> Yifeng Gao<sup>1</sup>,  Xin Wang<sup>1</sup>, Yifan Ding<sup>1</sup>,  Jingjing Chen<sup>1</sup>, Zuxuan Wu<sup>1</sup>, Bo Li<sup>4</sup>, Yu-Gang Jiang<sup>1</sup>
+    Xingjun Ma<sup>1,2</sup>, Yixu Wang<sup>1</sup>, Hengyuan Xu<sup>1</sup>, Yutao Wu<sup>3</sup>, Yifan Ding<sup>1</sup>, Yunhan Zhao<sup>1</sup>, Zilong Wang<sup>1</sup>, <br> Jiabin Hua<sup>1</sup>,  Ming Wen<sup>1,2</sup>,Jianan Liu<sup>1,2</sup>, Ranjie Duan, Yifeng Gao<sup>1</sup>, Yingshui Tan, Yunhao Chen<sup>1</sup>,<br>  Hui Xue, Xin Wang<sup>1</sup>,  Wei Cheng,
+         Jingjing Chen<sup>1</sup>, Zuxuan Wu<sup>1</sup>, Bo Li<sup>4</sup>, Yu-Gang Jiang<sup>1</sup>
   </p>
 
   <p>
