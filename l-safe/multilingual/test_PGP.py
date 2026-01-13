@@ -74,7 +74,7 @@ DOUBAO_API_KEY = ""
 client_doubao = OpenAI(api_key=DOUBAO_API_KEY, base_url="https://ark.cn-beijing.volces.com/api/v3")
 def get_doubao_response(prompt: str) -> str:
     r = client_doubao.chat.completions.create(
-        model="doubao-seed-1-6-250615",
+        model="doubao-seed-1-8-251228",
         messages=[{"role": "user", "content": prompt}],
         extra_body={"thinking": {"type": "disabled"}},
         max_completion_tokens=256,
