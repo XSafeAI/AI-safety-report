@@ -34,7 +34,7 @@ We conducted a systematic safety evaluation of **7** leading models: **GPT-5.2, 
 
 🤖 Safety is improving—but remains uneven, attack-sensitive, and highly modality-dependent. ⚠️ 
 
-🚀 More details can be found in the 35 pages report...
+🚀 For more details, please refer to the full 35-page report.
 
 
 <h2></h2>
