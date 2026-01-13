@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Safety Report: GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Nano Banana Pro, Seedream 4.5</title>
+<title>Safety Report: GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.8, Nano Banana Pro, Seedream 4.5</title>
 
 <!-- Fonts & UI libs (CDN so it works out-of-the-box) -->
 <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
@@ -156,7 +156,7 @@
     <!-- Updated Title Content -->
     <span style="font-size:66px;color:#0dcedf;font-weight:bold;font-family: Marker Felt, regular;background:linear-gradient(to right,#54d2d2,#ff6150);-webkit-background-clip:text;color:transparent"><strong>A Safety Report</strong></span><br>
     
-    <span style="font-size:32px;color:#4a4a4a;font-weight:bold;font-family: 'Google Sans', sans-serif;">ON GPT-5.2, GEMINI 3 PRO, QWEN3-VL, DOUBAO 1.6,</span><br>
+    <span style="font-size:32px;color:#4a4a4a;font-weight:bold;font-family: 'Google Sans', sans-serif;">ON GPT-5.2, GEMINI 3 PRO, QWEN3-VL, DOUBAO 1.8,</span><br>
     <span style="font-size:32px;color:#4a4a4a;font-weight:bold;font-family: 'Google Sans', sans-serif;">GROK 4.1 FAST, NANO BANANA PRO, AND SEEDREAM 4.5</span>
   </h1>
   <!-- Authors -->
@@ -351,7 +351,7 @@
   <div id="llm-adversarial" class="tab-content">
     <h2 class="section-title">LLM Adversarial Evaluation</h2>
     <p class="section-desc">
-      Despite strong benchmark performance, models remain vulnerable to jailbreaks, with no model exceeding 85% worst-case safety. GPT-5.2 is the most robust (82.00% worst-case safety), whereas Doubao 1.6 and Grok 4.1 Fast exhibit catastrophic collapses, scoring only 12.00% and 4.00% respectively. The evaluation reveals that while static template-based attacks are often mitigated, models are highly susceptible to sophisticated, multi-turn agentic attacks (like X-Teaming) that progressively decompose harmful objectives.
+      Despite strong benchmark performance, models remain vulnerable to jailbreaks, with no model exceeding 85% worst-case safety. GPT-5.2 is the most robust (82.00% worst-case safety), whereas Doubao 1.8 and Grok 4.1 Fast exhibit catastrophic collapses, scoring only 12.00% and 4.00% respectively. The evaluation reveals that while static template-based attacks are often mitigated, models are highly susceptible to sophisticated, multi-turn agentic attacks (like X-Teaming) that progressively decompose harmful objectives.
     </p>
     
     <div class="center-wrapper">
@@ -371,7 +371,7 @@
   <div id="vlm-benchmark" class="tab-content">
     <h2 class="section-title">Vision-Language Model Benchmark Evaluation</h2>
     <p class="section-desc">
-      GPT-5.2 leads the multimodal benchmark with a 92.14% safe rate, showing consistent generalization, while models like Grok 4.1 Fast and Doubao 1.6 lag significantly behind. Performance is uneven across risk types; models handle cross-modal misalignment well (SIUO) but struggle with culturally grounded implicit harm in memes, where scores drop as low as 44%. A key failure mode is "analytical operationalization," where models provide dangerous, actionable details under the guise of neutral academic analysis when processing visual inputs.
+      GPT-5.2 leads the multimodal benchmark with a 92.14% safe rate, showing consistent generalization, while models like Grok 4.1 Fast and Doubao 1.8 lag significantly behind. Performance is uneven across risk types; models handle cross-modal misalignment well (SIUO) but struggle with culturally grounded implicit harm in memes, where scores drop as low as 44%. A key failure mode is "analytical operationalization," where models provide dangerous, actionable details under the guise of neutral academic analysis when processing visual inputs.
     </p>
     
     <div class="center-wrapper">
@@ -391,7 +391,7 @@
   <div id="vlm-adversarial" class="tab-content">
     <h2 class="section-title">VLM Adversarial Evaluation</h2>
     <p class="section-desc">
-      In adversarial settings, GPT-5.2 maintains an exceptional safe rate of 97.24%, while other models suffer sharp degradation, particularly on the VLJailbreakBench where Qwen3-VL and Gemini 3 Pro drop to approximately 60%. Models frequently fail due to "refusal drift" in multi-turn dialogues or when harmful intent is obscured by complex formatting and role-play. Doubao 1.6 is particularly brittle, often collapsing to direct policy-override instructions.
+      In adversarial settings, GPT-5.2 maintains an exceptional safe rate of 97.24%, while other models suffer sharp degradation, particularly on the VLJailbreakBench where Qwen3-VL and Gemini 3 Pro drop to approximately 60%. Models frequently fail due to "refusal drift" in multi-turn dialogues or when harmful intent is obscured by complex formatting and role-play. Doubao 1.8 is particularly brittle, often collapsing to direct policy-override instructions.
     </p>
     
     <div class="center-wrapper">
@@ -474,7 +474,7 @@
   <div class="container is-max-desktop content" style="max-width: 800px; margin: 0 auto; margin-bottom: 20px;">
     <h2 class="title is-3 has-text-centered" style="color: var(--text);">Cite this report:</h2>
     <pre style="background-color: var(--sec-bg); color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 15px;"><code>@article{xsafe2026safety,
-  title={A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.6, Nano Banana Pro, and Seedream 4.5},
+  title={A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.8, Nano Banana Pro, and Seedream 4.5},
   author={XSafe AI Team},
   journal={Technical Report},
   year={2026}
