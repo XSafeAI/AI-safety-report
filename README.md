@@ -11,7 +11,7 @@
     <sup>3</sup>Deakin University, <sup>4</sup>UIUC
   </p>
   <p>
-    <a href="https://arxiv.org/abs/2510.14975"><img src="https://img.shields.io/badge/arXiv-2601.xxxxx-b31b1b.svg" alt="arXiv"/></a>
+    <a href="https://arxiv.org/abs/2510.14975"><img src="https://img.shields.io/badge/arXiv-2601.xxxxx-b31b1b.svg" alt="Paper"/></a>
     <a href="https://xsafeai.github.io/AI-safety-report/"><img src="https://img.shields.io/badge/Project-Page-blue.svg" alt="Project Page"/></a>
 
   </p>
