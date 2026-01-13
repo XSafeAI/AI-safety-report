@@ -121,7 +121,7 @@ def get_doubao_response(prompt: str) -> str:
     if client_doubao is None:
         raise RuntimeError("DOUBAO_API_KEY is empty. Set env DOUBAO_API_KEY.")
     r = client_doubao.chat.completions.create(
-        model="doubao-seed-1-6-250615",
+        model="doubao-seed-1-8-251228",
         messages=[{"role": "user", "content": prompt}],
         extra_body={"thinking": {"type": "disabled"}},
         max_completion_tokens=256,
