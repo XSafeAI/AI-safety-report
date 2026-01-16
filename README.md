@@ -1,6 +1,6 @@
 <div align="center">
   <h2></h2>
-  <h2>A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.8, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5</h2>
+  <h2>A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5</h2>
   <p>
     Xingjun Ma<sup>1,2</sup>, Yixu Wang<sup>1</sup>, Hengyuan Xu<sup>1</sup>, Yutao Wu<sup>3</sup>, Yifan Ding<sup>1</sup>, Yunhan Zhao<sup>1</sup>, Zilong Wang<sup>1</sup>, <br> Jiabin Hua<sup>1</sup>,  Ming Wen<sup>1,2</sup>,Jianan Liu<sup>1,2</sup>, Ranjie Duan, Yifeng Gao<sup>1</sup>, Yingshui Tan, Yunhao Chen<sup>1</sup>,<br>  Hui Xue, Xin Wang<sup>1</sup>,  Wei Cheng,
          Jingjing Chen<sup>1</sup>, Zuxuan Wu<sup>1</sup>, Bo Li<sup>4</sup>, Yu-Gang Jiang<sup>1</sup>
@@ -21,13 +21,13 @@
 <h2></h2>
 <h3>🤔 How safe are frontier large models? </h3>
 
-We conducted a systematic safety evaluation of **7** leading models: **GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.8, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5**, across **language**, **vision–language**, and **image generation**, covering **standard safety benchmarks**, **adversarial (jailbreak) testing**, **multilingual assessment**, and **regulatory compliance** evaluation.
+We conducted a systematic safety evaluation of **6** leading models: **GPT-5.2, Gemini 3 Pro, Qwen3-VL, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5**, across **language**, **vision–language**, and **image generation**, covering **standard safety benchmarks**, **adversarial (jailbreak) testing**, **multilingual assessment**, and **regulatory compliance** evaluation.
 
 <h3>Here’s what we found:</h3>
 
-🔹 Language safety: **GPT-5.2 > Gemini 3 Pro > Qwen3-VL > Doubao 1.8 > Grok 4.1 Fast**
+🔹 Language safety: **GPT-5.2 > Gemini 3 Pro > Qwen3-VL > Grok 4.1 Fast**
 
-🔹 Vision-Language safety: **GPT-5.2 > Qwen3-VL > Gemini 3 Pro > Doubao 1.8 > Grok 4.1 Fast**
+🔹 Vision-Language safety: **GPT-5.2 > Qwen3-VL > Gemini 3 Pro > Grok 4.1 Fast**
 
 🔹 Image generation safety: **Nano Banana Pro > Seedream 4.5**
 
