@@ -338,6 +338,45 @@
     <div class="center-wrapper">
       <img src="static/leaderboard_all.png" alt="Leaderboard Overview" class="summary-img">
     </div>
+    
+    <div class="content" style="max-width: 900px; margin: 40px auto;">
+        
+        <div class="center-wrapper">
+           <div class="subsection-header">Language Safety</div>
+        </div>
+        <ul style="text-align: left;">
+            <li><strong>GPT-5.2</strong> consistently leads across all four evaluation schemes, achieving top performance in Benchmark Evaluation (<strong>91.59%</strong>), Adversarial Robustness (<strong>54.26%</strong>), Multilingual Safety (<strong>77.50%</strong>), and Regulatory Compliance (<strong>90.22%</strong>). This uniformly strong showing indicates well-balanced and deeply integrated safety mechanisms that generalize effectively across modalities, languages, and attack settings.</li>
+
+            <li><strong>Gemini 3 Pro</strong> exhibits strong but uneven safety performance, ranking second in Benchmark Evaluation (<strong>88.06%</strong>) and Multilingual Safety (<strong>67.00%</strong>), and third in Compliance Evaluation (<strong>73.54%</strong>). However, its adversarial robustness drops noticeably to <strong>41.17%</strong>, revealing sensitivity to attack-driven inputs despite solid baseline alignment.</li>
+
+            <li><strong>Qwen3-VL</strong> demonstrates a mixed safety profile, with competitive performance in Benchmark Evaluation (<strong>80.19%</strong>) and strong Regulatory Compliance (<strong>77.11%</strong>, second overall), but substantially weaker Adversarial Robustness (<strong>33.42%</strong>) and lower Multilingual Safety (<strong>64.00%</strong>). This pattern suggests that its safety mechanisms are more tightly coupled to compliance-oriented constraints than to adversarial or cross-lingual generalization.</li>
+
+            <li><strong>Grok 4.1 Fast</strong> ranks last or near-last across all dimensions, with relatively low scores in Benchmark Evaluation (<strong>66.60%</strong>), Adversarial Robustness (<strong>46.39%</strong>), Multilingual Safety (<strong>45.97%</strong>), and Regulatory Compliance (<strong>45.97%</strong>). The consistently weak performance highlights systemic deficiencies in its safety guardrails, particularly under adversarial and multilingual conditions.</li>
+        </ul>
+
+
+        <div class="center-wrapper">
+           <div class="subsection-header">Vision-Language Safety</div>
+        </div>
+        <ul style="text-align: left;">
+            <li><strong>GPT-5.2</strong> consistently dominates both evaluation regimes, achieving near-saturated performance under adversarial evaluation (<strong>97.24%</strong>) and leading the benchmark setting (<strong>92.14%</strong>), indicating exceptional robustness against both standard and attack-driven safety risks.</li>
+
+            <li><strong>Qwen3-VL</strong> ranks second across both Benchmark (<strong>83.32%</strong>) and Adversarial (<strong>78.89%</strong>) evaluations, maintaining a consistent advantage over <strong>Gemini 3 Pro</strong> and demonstrating stable safety performance under adversarial pressure.</li>
+
+            <li><strong>Gemini 3 Pro</strong> places third, with solid but clearly lower scores of <strong>82.53%</strong> on benchmarks and <strong>75.44%</strong> under adversarial evaluation, reflecting moderate resilience but a noticeable gap relative to the top two models.</li>
+
+            <li><strong>Grok 4.1 Fast</strong> ranks fourth in both benchmark (<strong>67.97%</strong>) and adversarial (<strong>68.34%</strong>) evaluations, exhibiting a slight and somewhat counterintuitive score increase under adversarial conditions. This pattern suggests that its safety performance is largely insensitive to attack-driven perturbations, pointing to shallow guardrail behavior rather than safety generalization.</li>
+        </ul>
+
+        <div class="center-wrapper">
+           <div class="subsection-header">Image Generation Safety</div>
+        </div>
+        <ul style="text-align: left;">
+            <li><strong>Nano Banana Pro</strong> consistently outperforms its counterpart across all three evaluation dimensions, ranking first in Benchmark Evaluation (<strong>60.00%</strong>), Adversarial Evaluation (<strong>54.00%</strong>), and Regulatory Compliance (<strong>65.59%</strong>). The monotonic improvement from benchmark to adversarial and compliance settings suggests relatively robust and well-aligned safety controls that generalize beyond static prompt distributions, particularly in regulatory-sensitive image generation scenarios.</li>
+
+            <li><strong>Seedream 4.5</strong> ranks second across all evaluation dimensions, with notably lower scores in Benchmark Evaluation (<strong>47.94%</strong>), Adversarial Evaluation (<strong>19.67%</strong>), and Regulatory Compliance (<strong>57.53%</strong>). While its regulatory compliance score shows some recovery relative to benchmark and adversarial settings, the overall performance indicates weaker baseline safeguards and limited robustness under adversarial t2i attacks.</li>
+        </ul>
+    </div>
   </div>
 
   <!-- Safety Profiles -->
@@ -349,6 +388,20 @@
     <div class="center-wrapper">
       <img src="static/profile_all.png" alt="Safety Profiles Overview" class="summary-img">
     </div>
+
+    <div class="content" style="max-width: 900px; margin: 40px auto;">
+      <ul style="text-align: left;">
+        <li><strong>The Comprehensive Generalist (GPT-5.2).</strong> GPT-5.2 exhibits the most complete and balanced safety profile, with a radar chart approaching saturation across nearly all dimensions. Its performance remains consistently high from static benchmarks to jailbreak attacks and regulatory compliance. This stability suggests that <strong>safety constraints are internalized at a semantic and reasoning level rather than enforced through brittle pattern-based filters</strong>. As a result, GPT-5.2 is able to handle gray-area and context-rich queries with calibrated refusals, avoiding both over-refusal and jailbreak susceptibility.</li>
+
+        <li><strong>The Robust but Reactive Aligner (Gemini 3 Pro).</strong> Gemini 3 Pro demonstrates a strong but slightly retracted safety footprint relative to GPT-5.2. Its radar profile shows solid benchmark and multilingual performance, particularly in socially grounded tasks such as bias and toxicity detection. However, visible indentations along the adversarial and regulatory axes indicate a more reactive safety posture. Qualitative inspection suggests that <strong>Gemini 3 Pro often identifies harmful intent after partial compliance</strong> (e.g., comply-then-warn behaviors) or relies on rigid refusal triggers. While effective against explicit harm, this strategy is less resilient to adversarial reframing and contextual manipulation.</li>
+
+        <li><strong>The Polarized Rule-Follower (Qwen3-VL).</strong> Qwen3-VL displays a sharply uneven, spiked safety spectrum. It excels in Regulatory Compliance and performs competitively in multilingual safety, even surpassing Gemini 3 Pro in certain governance-aligned dimensions. However, its adversarial robustness and social bias handling collapse markedly, producing a highly polarized profile. This pattern is indicative of a rule-centric alignment strategy: <strong>the model adheres strongly to explicit, codified constraints but struggles when safety requires semantic generalization or contextual inference</strong>. Consequently, Qwen3-VL is highly reliable within known regulatory boundaries, yet brittle under semantic disguise and novel attack strategies.</li>
+
+        <li><strong>The Guardrail-Light Instruction Follower (Grok 4.1 Fast).</strong> Grok 4.1 Fast shows the most uniformly diminished safety profile among language models, with consistently low scores across benchmark, adversarial, multilingual, and regulatory dimensions. <strong>It exhibits systemic safety deficiencies even under standard evaluation</strong>. The radar chart suggests minimal internalization of safety concepts and heavy reliance on lightweight or surface-level filtering, resulting in poor robustness across virtually all tested settings.</li>
+
+        <li><strong>The Divergent T2I Safety Strategies (Nano Banana Pro vs. Seedream 4.5).</strong> For the two T2I models, the radar charts reveal two contrasting alignment philosophies. <strong>Nano Banana Pro exhibits a sanitization-oriented profile</strong>, maintaining broader coverage across benchmark, adversarial, and compliance dimensions by implicitly transforming unsafe prompts into safer visual outputs. This strategy preserves utility while reducing harm. In contrast, <strong>Seedream 4.5 displays a block-or-leak profile</strong>: it relies on aggressive binary refusals but lacks robust semantic grounding for borderline cases, leading to severe failures when these coarse filters are bypassed. The divergence highlights a fundamental trade-off between generative flexibility and safety robustness in image generation systems.</li>
+      </ul>
+    </div>
   </div>
   
   <!-- LLM Benchmark -->
@@ -359,13 +412,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Quantitative Results</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig3_llm_bench.png" alt="LLM Benchmark Results" class="summary-img">
       <div class="figure-caption">Figure 3: Safe rate of five models across five benchmarks.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Case Studies</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/fig4_exp.png" alt="LLM Benchmark Examples" class="example-img">
       <div class="figure-caption">Figure 4: Examples of model responses to standard safety benchmark prompts.</div>
     </div>
@@ -379,13 +432,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Attack Success Rates</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig5_llm_adv.png" alt="LLM Adversarial Results" class="summary-img">
       <div class="figure-caption">Figure 5: Adversarial evaluation results across five models.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Adversarial Examples</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/adv_bad_examples.png" alt="Adversarial Bad Examples" class="example-img">
       <div class="figure-caption">Figure 6: Qualitative examples of successful jailbreak attempts.</div>
     </div>
@@ -399,13 +452,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Benchmark Performance</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig11_VLM_bench.png" alt="VLM Benchmark Results" class="summary-img">
       <div class="figure-caption">Figure 11: Safety scores for Vision-Language Models on standard benchmarks.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Visual Prompt Examples</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/fig12_VLM_Bench_example.png" alt="VLM Benchmark Examples" class="example-img">
       <div class="figure-caption">Figure 12: Examples of VLM responses to unsafe visual and textual inputs.</div>
     </div>
@@ -419,13 +472,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Adversarial Robustness</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig13_VLM_adv.png" alt="VLM Adversarial Results" class="summary-img">
       <div class="figure-caption">Figure 13: Safe rates under multimodal adversarial evaluation.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Visual Jailbreaks</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/fig14_VLM_adv_example.png" alt="VLM Adversarial Examples" class="example-img">
       <div class="figure-caption">Figure 14: Demonstration of visual jailbreaks triggering unsafe content.</div>
     </div>
@@ -439,13 +492,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Safety Metrics</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig15_t2i_bench.png" alt="T2I Benchmark Results" class="summary-img">
       <div class="figure-caption">Figure 15: Evaluation results on the T2ISafety benchmark.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Generation Samples</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/fig16_t2i_bench_example.png" alt="T2I Benchmark Examples" class="example-img">
       <div class="figure-caption">Figure 16: Samples of generated content evaluated for safety compliance.</div>
     </div>
@@ -459,13 +512,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Bypass Success Rates</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig17_t2i_adv.png" alt="T2I Adversarial Results" class="summary-img">
       <div class="figure-caption">Figure 17: Adversarial evaluation results.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Attack Visualizations</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/fig18_t2i_adv_example.png" alt="T2I Adversarial Examples" class="example-img">
       <div class="figure-caption">Figure 18: Visual results of adversarial prompts bypassing safety filters.</div>
     </div>
@@ -479,13 +532,13 @@
     </p>
     
     <div class="center-wrapper">
-      <div class="subsection-header">Compliance Scores</div>
+      <div class="subsection-header">Safety Performance</div>
       <img src="static/fig19_t2i_regulation.png" alt="T2I Regulation Results" class="summary-img">
       <div class="figure-caption">Figure 19: Quantitative results on the regulatory compliance benchmark.</div>
     </div>
 
     <div class="center-wrapper">
-      <div class="subsection-header">Regulatory Case Studies</div>
+      <div class="subsection-header">Examples</div>
       <img src="static/fig20_t2i_regulation_example.png" alt="T2I Regulation Examples" class="example-img">
       <div class="figure-caption">Figure 20: Examples illustrating copyright infringement and identity leakage risks.</div>
     </div>
