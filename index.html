@@ -313,7 +313,9 @@
   </div>
   <div class="tabs is-centered is-toggle is-medium">
     <ul>
-      <li class="is-active" onclick="openTab(event, 'llm-benchmark')"><a>LLM Benchmark</a></li>
+      <li class="is-active" onclick="openTab(event, 'leaderboard')"><a>Leaderboard</a></li>
+      <li onclick="openTab(event, 'safety-profiles')"><a>Safety Profiles</a></li>
+      <li onclick="openTab(event, 'llm-benchmark')"><a>LLM Benchmark</a></li>
       <li onclick="openTab(event, 'llm-adversarial')"><a>LLM Adversarial</a></li>
       <li onclick="openTab(event, 'vlm-benchmark')"><a>VLM Benchmark</a></li>
       <li onclick="openTab(event, 'vlm-adversarial')"><a>VLM Adversarial</a></li>
@@ -326,9 +328,31 @@
 
 <!--=================Tab Contents==========================-->
 <div class="content-container">
+
+  <!-- Leaderboard -->
+  <div id="leaderboard" class="tab-content is-active">
+    <h2 class="section-title">Leaderboard</h2>
+    <p class="section-desc">
+      The safety leaderboard provides a comparative view of frontier models across multiple dimensions, including benchmark performance, adversarial robustness, multilingual generalization, and regulatory compliance, spanning language, vision–language, and image generation settings. Overall, the results reveal a highly uneven safety landscape: while a small number of models achieve consistently strong and balanced performance across most evaluations, others exhibit clear trade-offs—performing well on standard benchmarks but degrading sharply under adversarial or cross-lingual conditions. Notably, strong benchmark scores do not necessarily translate into real-world robustness, highlighting the importance of multi-axis evaluation rather than single-score rankings.
+    </p>
+    <div class="center-wrapper">
+      <img src="static/leaderboard_all.png" alt="Leaderboard Overview" class="summary-img">
+    </div>
+  </div>
+
+  <!-- Safety Profiles -->
+  <div id="safety-profiles" class="tab-content">
+    <h2 class="section-title">Safety Profiles</h2>
+    <p class="section-desc">
+      The safety profile characterizes each model’s alignment behavior as a multidimensional pattern rather than a scalar score. By examining performance across benchmark, adversarial, multilingual, and compliance axes, distinct safety archetypes emerge, ranging from well-balanced generalists to rule-driven or guardrail-light models with pronounced weaknesses. These profiles show that safety failures often stem from structural design choices—such as reliance on rigid rules or surface-level filters—rather than isolated bugs. Taken together, the profiles underscore that model safety is inherently contextual and modality-dependent, reinforcing the need for holistic, profile-based assessment to understand real deployment risks.
+    </p>
+    <div class="center-wrapper">
+      <img src="static/profile_all.png" alt="Safety Profiles Overview" class="summary-img">
+    </div>
+  </div>
   
   <!-- LLM Benchmark -->
-  <div id="llm-benchmark" class="tab-content is-active">
+  <div id="llm-benchmark" class="tab-content">
     <h2 class="section-title">Large Language Model Benchmark Evaluation</h2>
     <p class="section-desc">
       In standard safety benchmarks, GPT-5.2 achieves the highest macro-average safe rate of 91.59%, closely followed by Gemini 3 Pro at 88.06%. While most models perform well on refusal-based tasks like StrongREJECT, there is significant variance in social reasoning; for instance, Qwen3-VL struggles severely on the BBQ bias benchmark with a score of only 45.00%. This indicates that while frontier models have improved at rejecting explicit harmful instructions, they remain structurally weak in detecting subtle social biases and ensuring fairness.
