@@ -11,7 +11,7 @@
     <sup>3</sup>Deakin University, <sup>4</sup>UIUC
   </p>
   <p>
-    <a href="https://arxiv.org/abs/2510.14975"><img src="https://img.shields.io/badge/arXiv-2601.xxxxx-b31b1b.svg" alt="Paper"/></a>
+    <a href="https://arxiv.org/pdf/2601.10527"><img src="https://img.shields.io/badge/arXiv-2601.10527-b31b1b.svg" alt="Paper"/></a>
     <a href="https://xsafeai.github.io/AI-safety-report/"><img src="https://img.shields.io/badge/Project-Page-blue.svg" alt="Project Page"/></a>
 
   </p>
@@ -40,15 +40,16 @@ We conducted a systematic safety evaluation of **6** leading models: **GPT-5.2, 
 <h2></h2>
 <p align="center">
   <img src="figures/spec_1.png" width="32%" />
-  <img src="figures/spec_2.png" width="32%" />
+  <!-- <img src="figures/spec_2.png" width="32%" /> -->
   <img src="figures/spec_3.png" width="32%" />
+  <img src="figures/spec_4.png" width="32%" />
 </p>
 
 <p align="center">
-  <img src="figures/spec_4.png" width="19%" />
-  <img src="figures/spec_5.png" width="19%" />
-    <img src="figures/spec_6.png" width="20%" />
-  <img src="figures/spec_7.png" width="20%" />
+  
+  <img src="figures/spec_5.png" width="32%" />
+    <img src="figures/spec_6.png" width="32%" />
+  <img src="figures/spec_7.png" width="32%" />
 </p>
 
 <p align="center">
@@ -173,9 +174,9 @@ AI-safety-report/
 ## Cite this report:
 ```bibtex
 @article{xsafe2026safety,
-  title={A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Doubao 1.8, Nano Banana Pro, and Seedream 4.5},
-  author={Xingjun Ma, Yixu Wang, Hengyuan Xu, Yutao Wu, Yifan Ding, Yunhan Zhao, Zilong Wang, Jiabin Hua, Ming Wen, Jianan Liu, Ranjie Duan, Yifeng Gao, Yingshui Tan, Yunhao Chen, Hui Xue, Xin Wang, Wei Cheng, Jingjing Chen, Zuxuan Wu, Bo Li, Yu-Gang Jiang},
-  journal={axriv},
+  title={A Safety Report on GPT-5.2, Gemini 3 Pro, Qwen3-VL, Grok 4.1 Fast, Nano Banana Pro, and Seedream 4.5},
+  author={Xingjun Ma and Yixu Wang and Hengyuan Xu and Yutao Wu and Yifan Ding and Yunhan Zhao and Zilong Wang and Jiabin Hua and Ming Wen and Jianan Liu and Ranjie Duan and Yifeng Gao and Yingshui Tan and Yunhao Chen and Hui Xue and Xin Wang and Wei Cheng and Jingjing Chen and Zuxuan Wu and Bo Li and Yu-Gang Jiang},
+  journal={arXiv preprint arXiv:2601.10527},
   year={2026}
 }
 ```
